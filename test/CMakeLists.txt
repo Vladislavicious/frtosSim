@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.12)
+project(my_tests)
+
+add_subdirectory(lib/googletest)
+
+include_directories(../src/common)
+include_directories(lib/googletest/googletest/include)
+
+set(SOURCE_FILES 
+    main.cpp 
+    src/time_sv_tests.cpp
+    src/common_tests.cpp
+    )
+
+add_executable(my_tests ${SOURCE_FILES})
+target_link_libraries(my_tests common gtest)
+install(TARGETS my_tests DESTINATION bin)
+

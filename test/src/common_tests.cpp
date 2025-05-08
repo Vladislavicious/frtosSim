@@ -1,0 +1,51 @@
+#include "gtest/gtest.h"
+#include "common.h"
+
+using namespace std;
+//---------------------------------------------------------------
+
+TEST( Common, globalInfoSingleton ) {
+  ApplicationGlobalInfo& info = ApplicationGlobalInfo::Instance();
+  ApplicationGlobalInfo& otherInfo = ApplicationGlobalInfo::Instance();
+
+  EXPECT_EQ( &info, &otherInfo );
+}
+//---------------------------------------------------------------
+
+TEST( Common, initialGlobalInfoTimeZero ) {
+  ApplicationGlobalInfo& info = ApplicationGlobalInfo::Instance();
+  EXPECT_EQ( info.GetCurrentAppTime(), TimeSV::Now() );
+}
+//---------------------------------------------------------------
+
+TEST( Common, passedTimeZero ) {
+  ApplicationGlobalInfo& info = ApplicationGlobalInfo::Instance();
+  info.SetInitialTimeDelta( TimeSV::Now() );
+  TimeSV time = info.GetCurrentAppTime();
+  uint32_t passedTime = time.GetMs();
+
+  EXPECT_EQ( 0, passedTime );
+}
+//---------------------------------------------------------------
+
+TEST( Common, timeReallyPassess ) {
+  ApplicationGlobalInfo& info = ApplicationGlobalInfo::Instance();
+  TimeSV initialTime( TimeSV::Now() );
+  info.SetInitialTimeDelta( initialTime );
+
+  for( uint32_t i = 0; i < 100000; i++ );
+
+  TimeSV afterDelayTime = info.GetCurrentAppTime();
+  EXPECT_FALSE( afterDelayTime == initialTime );
+}
+
+//---------------------------------------------------------------
+TEST( Common, errorOkCodeToString ) {
+  ApplicationGlobalInfo& info = ApplicationGlobalInfo::Instance();
+
+  ErrorCode result = ErrorCode::ERR_OK;
+  std::string expectedStr{ "OK" };
+
+  EXPECT_STREQ( info.TranslateError( result ).c_str(), expectedStr.c_str() );
+}
+//---------------------------------------------------------------
