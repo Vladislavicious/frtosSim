@@ -8,7 +8,11 @@ using json = nlohmann::json;
 
 //---------------------------------------------------------------
 enum class ConfigError {
-  OK
+  OK,
+  BAD_FILE_NAME,
+  NO_CONFIG_FILE,
+  HAVENT_CHECKED,
+  BAD_JSON_FORMAT,
 };
 //---------------------------------------------------------------
 //       BaseConfig class definition:
@@ -18,15 +22,15 @@ class BaseConfig
 public:
   BaseConfig();
   ConfigError CheckConfig( std::string Path );
-  bool IsValid();
+  bool IsValid() const;
 protected:
-  ConfigError ReadConfig( const json& Config );
+  virtual ConfigError ReadConfig( const json& Config ) = 0;
 private:
-  json Parse( std::istream& stream );
-  bool DoPathExist( std::string Path );
-  std::istream OpenFile( std::string Path );
+  ConfigError _CheckConfig( std::string Path );
+  json Parse( std::string Path );
+  ConfigError CheckFileValidity( std::string Path );
 
-  bool validityChecked{ false };
+  ConfigError configValidity;
 };
 //---------------------------------------------------------------
 #endif // CONFIG_H_
