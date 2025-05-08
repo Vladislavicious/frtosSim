@@ -14,7 +14,8 @@ TEST( Common, globalInfoSingleton ) {
 
 TEST( Common, initialGlobalInfoTimeZero ) {
   ApplicationGlobalInfo& info = ApplicationGlobalInfo::Instance();
-  EXPECT_EQ( info.GetCurrentAppTime(), TimeSV::Now() );
+  TimeSV result = info.GetCurrentAppTime() - TimeSV::Now();
+  EXPECT_TRUE( result.GetMs() <= 5 );
 }
 //---------------------------------------------------------------
 

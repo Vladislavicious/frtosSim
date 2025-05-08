@@ -31,12 +31,23 @@ ConfigError BaseConfig::_CheckConfig( std::string Path )
 json BaseConfig::Parse( std::string Path )
 {
   std::ifstream file( Path );
-  json data = json::parse( file );
-  return json();
+  json data;
+  try {
+    data = json::parse( file );
+  }
+  catch( nlohmann::json::parse_error ) {
+    data = json();
+  }
+  return data;
 }
 //---------------------------------------------------------------
 ConfigError BaseConfig::CheckFileValidity( std::string Path )
 {
+  constexpr int MAX_PATH_LENGTH = 256;
+
+  if( Path.length() > MAX_PATH_LENGTH )
+    return ConfigError::FILE_NAME_TOO_LONG;
+
   if( !Path.ends_with( ".json" ) )
     return ConfigError::BAD_FILE_NAME;
 

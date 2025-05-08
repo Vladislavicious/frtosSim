@@ -40,3 +40,22 @@ TEST( JSONtest, AccessingAtNonExistingMembers ) {
   EXPECT_THROW( ex1.at( "unknown" ), nlohmann::json::out_of_range );
 }
 //---------------------------------------------------------------
+TEST( JSONtest, BadFileFormat_ending ) {
+  const std::string badJsonString = R"(
+    {
+      "pi": 3.141,
+      "happy": true
+  )";
+  EXPECT_THROW( json::parse( badJsonString ), nlohmann::json::parse_error );
+}
+//---------------------------------------------------------------
+TEST( JSONtest, BadFileFormat_missColon ) {
+  const std::string badJsonStringColon = R"(
+    {
+      "pi" 3.141,
+      "happy": true
+    }
+  )";
+  EXPECT_THROW( json::parse( badJsonStringColon ), nlohmann::json::parse_error );
+}
+//---------------------------------------------------------------

@@ -10,7 +10,6 @@ include_directories(common)
 add_subdirectory(config)
 include_directories(config)
 
-
 set(SOURCE_FILES 
     main.cpp )
 

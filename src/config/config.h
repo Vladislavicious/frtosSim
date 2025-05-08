@@ -11,8 +11,10 @@ enum class ConfigError {
   OK,
   BAD_FILE_NAME,
   NO_CONFIG_FILE,
-  HAVENT_CHECKED,
   BAD_JSON_FORMAT,
+  FILE_NAME_TOO_LONG,
+
+  HAVENT_CHECKED,
 };
 //---------------------------------------------------------------
 //       BaseConfig class definition:
@@ -27,6 +29,9 @@ protected:
   virtual ConfigError ReadConfig( const json& Config ) = 0;
 private:
   ConfigError _CheckConfig( std::string Path );
+
+  /// @brief Parses json data from Path
+  /// @return parsed json object on good file format and empty json object if errors occured
   json Parse( std::string Path );
   ConfigError CheckFileValidity( std::string Path );
 
