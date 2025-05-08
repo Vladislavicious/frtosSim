@@ -33,7 +33,7 @@ TEST( Common, timeReallyPassess ) {
   TimeSV initialTime( TimeSV::Now() );
   info.SetInitialTimeDelta( initialTime );
 
-  for( uint32_t i = 0; i < 100000; i++ );
+  for( uint32_t i = 0; i < 10000000; i++ );
 
   TimeSV afterDelayTime = info.GetCurrentAppTime();
   EXPECT_FALSE( afterDelayTime == initialTime );
