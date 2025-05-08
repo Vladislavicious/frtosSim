@@ -11,8 +11,5 @@ int main( int argc, const char* argv[] )
   TimeSV vremya{ 0 };
   std::cout << vremya.GetTimeStr() << "\n";
 
-  BaseConfig conf;
-  conf.smh();
-
   return 0;
 }

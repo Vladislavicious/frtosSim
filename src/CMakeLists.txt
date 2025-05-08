@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(FrtosSim)
 
+add_subdirectory(json)
+include_directories(json/include)
 
 add_subdirectory(common)
 include_directories(common)
@@ -8,8 +10,6 @@ include_directories(common)
 add_subdirectory(config)
 include_directories(config)
 
-add_subdirectory(json)
-include_directories(json/include)
 
 set(SOURCE_FILES 
     main.cpp )
