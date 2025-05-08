@@ -26,7 +26,7 @@ TEST( ConfigTest, BadFileFormat ) {
 
   ConfigError result = conf.CheckConfig( fileName );
 
-  EXPECT_EQ( result, ConfigError::BAD_FILE_NAME );
+  EXPECT_EQ( result.GetValue(), ConfigErrorEnum::BAD_FILE_NAME );
 }
 //---------------------------------------------------------------
 TEST( ConfigTest, GiantFilename ) {
@@ -44,7 +44,7 @@ TEST( ConfigTest, GiantFilename ) {
 
   ConfigError result = conf.CheckConfig( fileName );
 
-  EXPECT_EQ( result, ConfigError::FILE_NAME_TOO_LONG );
+  EXPECT_EQ( result.GetValue(), ConfigErrorEnum::FILE_NAME_TOO_LONG );
 }
 //---------------------------------------------------------------
 TEST( ConfigTest, NonExistentFile ) {
@@ -56,7 +56,7 @@ TEST( ConfigTest, NonExistentFile ) {
 
   ConfigError result = conf.CheckConfig( fileName );
 
-  EXPECT_EQ( result, ConfigError::NO_CONFIG_FILE );
+  EXPECT_EQ( result.GetValue(), ConfigErrorEnum::NO_CONFIG_FILE );
 }
 //---------------------------------------------------------------
 TEST( ConfigTest, GoodFile ) {
@@ -64,13 +64,14 @@ TEST( ConfigTest, GoodFile ) {
   const std::string fileName( "base.json" );
 
   ON_CALL( conf, ReadConfig )
-    .WillByDefault( testing::Return( ConfigError::OK ) );
+    .WillByDefault( testing::Return( ConfigError( ConfigErrorEnum::OK ) ) );
 
   EXPECT_CALL( conf, ReadConfig )
     .Times( 1 );
 
   ConfigError result = conf.CheckConfig( configDataPath + fileName );
 
-  EXPECT_EQ( result, ConfigError::OK );
+  EXPECT_EQ( result.GetValue(), ConfigErrorEnum::OK );
   EXPECT_TRUE( conf.IsValid() );
 }
+//---------------------------------------------------------------

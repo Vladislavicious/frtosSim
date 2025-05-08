@@ -7,7 +7,7 @@ using json = nlohmann::json;
 #include "common.h"
 
 //---------------------------------------------------------------
-enum class ConfigError {
+enum class ConfigErrorEnum {
   OK,
   BAD_FILE_NAME,
   NO_CONFIG_FILE,
@@ -15,6 +15,18 @@ enum class ConfigError {
   FILE_NAME_TOO_LONG,
 
   HAVENT_CHECKED,
+};
+//---------------------------------------------------------------
+//       ConfigError class definition:
+//---------------------------------------------------------------
+class ConfigError {
+public:
+  ConfigError( ConfigErrorEnum err );
+  bool IsOk() const;
+  ConfigErrorEnum GetValue() const;
+  std::string GetErrorMessage() const;
+private:
+  ConfigErrorEnum errorValue;
 };
 //---------------------------------------------------------------
 //       BaseConfig class definition:

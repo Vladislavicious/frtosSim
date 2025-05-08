@@ -2,8 +2,32 @@
 #include <iostream>
 #include <fstream>
 //---------------------------------------------------------------
+ConfigError::ConfigError( ConfigErrorEnum err ) :
+  errorValue( err )
+{
+}
+//---------------------------------------------------------------
+bool ConfigError::IsOk() const
+{
+  return errorValue == ConfigErrorEnum::OK;
+}
+//---------------------------------------------------------------
+ConfigErrorEnum ConfigError::GetValue() const
+{
+  return errorValue;
+}
+//---------------------------------------------------------------
+std::string ConfigError::GetErrorMessage() const
+{
+  return std::string( "UNEMPLEMENTED" );
+}
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+//       BaseConfig class implementation:
+//---------------------------------------------------------------
+//---------------------------------------------------------------
 BaseConfig::BaseConfig() :
-  configValidity{ ConfigError::HAVENT_CHECKED }
+  configValidity{ ConfigError( ConfigErrorEnum::HAVENT_CHECKED ) }
 {
 }
 //---------------------------------------------------------------
@@ -15,13 +39,13 @@ ConfigError BaseConfig::CheckConfig( std::string Path )
 //---------------------------------------------------------------
 bool BaseConfig::IsValid() const
 {
-  return configValidity == ConfigError::OK;
+  return configValidity.IsOk();
 }
 //---------------------------------------------------------------
 ConfigError BaseConfig::_CheckConfig( std::string Path )
 {
   ConfigError result = CheckFileValidity( Path );
-  if( result != ConfigError::OK )
+  if( !result.IsOk() )
     return result;
 
   json parsed = Parse( Path );
@@ -46,14 +70,15 @@ ConfigError BaseConfig::CheckFileValidity( std::string Path )
   constexpr int MAX_PATH_LENGTH = 256;
 
   if( Path.length() > MAX_PATH_LENGTH )
-    return ConfigError::FILE_NAME_TOO_LONG;
+    return ConfigError( ConfigErrorEnum::FILE_NAME_TOO_LONG );
 
   if( !Path.ends_with( ".json" ) )
-    return ConfigError::BAD_FILE_NAME;
+    return ConfigError( ConfigErrorEnum::BAD_FILE_NAME );
 
   if( !std::filesystem::exists( Path ) )
-    return ConfigError::NO_CONFIG_FILE;
+    return ConfigError( ConfigErrorEnum::NO_CONFIG_FILE );
 
-  return ConfigError::OK;
+  return ConfigError( ConfigErrorEnum::OK );
 }
 //---------------------------------------------------------------
+
