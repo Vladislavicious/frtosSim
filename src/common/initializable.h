@@ -10,10 +10,10 @@ public:
   bool Init();
   bool DeInit();
   bool IsInit();
-private:
+protected:
   virtual bool _Init() = 0;
   virtual bool _DeInit() = 0;
-
+private:
   bool initialized{ false };
 };
 //---------------------------------------------------------------
