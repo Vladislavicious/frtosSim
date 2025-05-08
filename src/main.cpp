@@ -1,4 +1,5 @@
 #include <iostream>
+#include "config.h"
 #include "time_sv.h"
 
 static const char* const HEADER = "\nTest output\n\n";
@@ -9,6 +10,9 @@ int main( int argc, const char* argv[] )
 
   TimeSV vremya{ 0 };
   std::cout << vremya.GetTimeStr() << "\n";
+
+  BaseConfig conf;
+  conf.smh();
 
   return 0;
 }

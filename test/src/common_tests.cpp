@@ -24,7 +24,7 @@ TEST( Common, passedTimeZero ) {
   TimeSV time = info.GetCurrentAppTime();
   uint32_t passedTime = time.GetMs();
 
-  EXPECT_EQ( 0, passedTime );
+  EXPECT_TRUE( passedTime <= 5 ); // in case few microseconds passed since construction
 }
 //---------------------------------------------------------------
 

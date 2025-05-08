@@ -5,6 +5,9 @@ project(FrtosSim)
 add_subdirectory(common)
 include_directories(common)
 
+add_subdirectory(config)
+include_directories(config)
+
 add_subdirectory(json)
 include_directories(json/include)
 
@@ -12,5 +15,5 @@ set(SOURCE_FILES
     main.cpp )
 
 add_executable(FrtosSim ${SOURCE_FILES})
-target_link_libraries(FrtosSim common nlohmann_json::nlohmann_json)
+target_link_libraries(FrtosSim common config nlohmann_json::nlohmann_json)
 install(TARGETS FrtosSim DESTINATION ${DIVISIBLE_INSTALL_BIN_DIR})
