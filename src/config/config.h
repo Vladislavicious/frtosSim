@@ -39,6 +39,7 @@ public:
   bool IsValid() const;
 protected:
   virtual ConfigError ReadConfig( const json& Config ) = 0;
+  std::string GetPath();
 private:
   ConfigError _CheckConfig( std::string Path );
 
@@ -48,6 +49,7 @@ private:
   ConfigError CheckFileValidity( std::string Path );
 
   ConfigError configValidity;
+  std::string path;
 };
 //---------------------------------------------------------------
 #endif // CONFIG_H_

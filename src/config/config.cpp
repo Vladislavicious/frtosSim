@@ -27,7 +27,8 @@ std::string ConfigError::GetErrorMessage() const
 //---------------------------------------------------------------
 //---------------------------------------------------------------
 BaseConfig::BaseConfig() :
-  configValidity{ ConfigError( ConfigErrorEnum::HAVENT_CHECKED ) }
+  configValidity{ ConfigError( ConfigErrorEnum::HAVENT_CHECKED ) },
+  path{ "" }
 {
 }
 //---------------------------------------------------------------
@@ -42,11 +43,18 @@ bool BaseConfig::IsValid() const
   return configValidity.IsOk();
 }
 //---------------------------------------------------------------
+std::string BaseConfig::GetPath()
+{
+  return path;
+}
+//---------------------------------------------------------------
 ConfigError BaseConfig::_CheckConfig( std::string Path )
 {
   ConfigError result = CheckFileValidity( Path );
   if( !result.IsOk() )
     return result;
+
+  path = Path;
 
   json parsed = Parse( Path );
   return ReadConfig( parsed );
