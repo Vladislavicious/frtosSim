@@ -72,7 +72,14 @@
 			"thread": "cpp",
 			"cinttypes": "cpp",
 			"typeinfo": "cpp",
-			"variant": "cpp"
+			"variant": "cpp",
+			"bitset": "cpp",
+			"codecvt": "cpp",
+			"csignal": "cpp",
+			"regex": "cpp",
+			"ranges": "cpp",
+			"shared_mutex": "cpp",
+			"valarray": "cpp"
 		}
 	}
 }
