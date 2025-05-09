@@ -16,6 +16,7 @@ enum class ConfigErrorEnum {
   FILE_NAME_TOO_LONG,
   // logger
   NO_LOG_TYPE,
+  NO_LOG_FILEPATH,
   // base
   HAVENT_CHECKED,
 };

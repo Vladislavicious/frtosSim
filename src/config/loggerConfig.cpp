@@ -21,18 +21,31 @@ std::string LoggerConfig::GetLogFilepath()
 //---------------------------------------------------------------
 ConfigError LoggerConfig::ReadConfig( const json& Config )
 {
-  std::string logTypeStr;
+  std::string logTypeStr{ "" };
+  std::string logFilepathStr{ "" };
   LogInterfaceEnum type = LogInterfaceEnum::NONE;
 
   try {
     logTypeStr = Config.at( "logType" );
     type = FromString( logTypeStr );
   }
-  catch( nlohmann::json::parse_error ) {
+  catch( nlohmann::json::out_of_range ) {
     return ConfigError( ConfigErrorEnum::NO_LOG_TYPE );
   }
 
+  if( type == LogInterfaceEnum::FILE )
+  {
+    try {
+      logFilepathStr = Config.at( "logFilepath" );
+    }
+    catch( nlohmann::json::out_of_range ) {
+      return ConfigError( ConfigErrorEnum::NO_LOG_FILEPATH );
+    }
+  }
+
   logType = type;
+  logFilepath = logFilepathStr;
+
   return ConfigError( ConfigErrorEnum::OK );
 }
 //---------------------------------------------------------------
