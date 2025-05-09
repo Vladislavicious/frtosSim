@@ -2,6 +2,9 @@
 #define COMMON_H_
 
 #include "time_sv.h"
+
+//---------------------------------------------------------------
+bool stringCmpNoCase( const std::string&, const std::string& );
 //---------------------------------------------------------------
 enum class ErrorCode {
   ERR_OK = 0,

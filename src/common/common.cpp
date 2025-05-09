@@ -2,6 +2,12 @@
 #include "time.h"
 
 //---------------------------------------------------------------
+
+bool stringCmpNoCase( const std::string& str1, const std::string& str2 ) {
+  return str1.size() == str2.size() && std::equal( str1.begin(), str1.end(), str2.begin(), []( auto a, auto b ) {return std::tolower( a ) == std::tolower( b );} );
+}
+
+//---------------------------------------------------------------
 ApplicationGlobalInfo* ApplicationGlobalInfo::GlobalInfoInstance = nullptr;
 //---------------------------------------------------------------
 //       ApplicationGlobalInfo class impelementation:

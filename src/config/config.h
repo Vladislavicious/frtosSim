@@ -8,12 +8,15 @@ using json = nlohmann::json;
 
 //---------------------------------------------------------------
 enum class ConfigErrorEnum {
+  // base
   OK,
   BAD_FILE_NAME,
   NO_CONFIG_FILE,
   BAD_JSON_FORMAT,
   FILE_NAME_TOO_LONG,
-
+  // logger
+  NO_LOG_TYPE,
+  // base
   HAVENT_CHECKED,
 };
 //---------------------------------------------------------------

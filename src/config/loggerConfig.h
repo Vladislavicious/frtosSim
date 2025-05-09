@@ -20,6 +20,7 @@ public:
   std::string GetLogFilepath();
 private:
   ConfigError ReadConfig( const json& Config ) override;
+  LogInterfaceEnum FromString( const std::string& str );
 
   LogInterfaceEnum logType;
   std::string logFilepath;

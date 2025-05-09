@@ -4,7 +4,7 @@
 
 using namespace std;
 
-static const std::string configDataPath = std::string( TEST_DATA_DIR ) + std::string( "/config/" );
+static const std::string loggerConfigDataPath = std::string( TEST_DATA_DIR ) + std::string( "/loggerConfig/" );
 //---------------------------------------------------------------
 TEST( loggerConfig, creation ) {
   LoggerConfig conf;
@@ -12,3 +12,12 @@ TEST( loggerConfig, creation ) {
   EXPECT_STREQ( conf.GetLogFilepath().c_str(), "" );
   EXPECT_EQ( conf.GetLogType(), LogInterfaceEnum::NONE );
 }
+//---------------------------------------------------------------
+TEST( loggerConfig, consoleConfigRead ) {
+  LoggerConfig conf;
+  ConfigError result = conf.CheckConfig( loggerConfigDataPath + std::string( "consoleLog.json" ) );
+
+  EXPECT_TRUE( result.IsOk() );
+  EXPECT_EQ( conf.GetLogType(), LogInterfaceEnum::CONSOLE );
+}
+//---------------------------------------------------------------
