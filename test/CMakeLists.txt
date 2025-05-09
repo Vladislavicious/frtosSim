@@ -17,6 +17,7 @@ set(SOURCE_FILES
     src/json_tests.cpp
     src/config_tests.cpp
     src/loggerConfig_tests.cpp
+    src/buildConfig_tests.cpp
     )
 
 add_compile_definitions(TEST_DATA_DIR="${PROJECT_SOURCE_DIR}/data")

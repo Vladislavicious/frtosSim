@@ -17,6 +17,8 @@ enum class ConfigErrorEnum {
   // logger
   NO_LOG_TYPE,
   NO_LOG_FILEPATH,
+  // builder
+  NO_BUILD_FILEPATH,
   // base
   HAVENT_CHECKED,
 };
