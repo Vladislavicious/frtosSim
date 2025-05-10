@@ -21,10 +21,7 @@ void Loggable::SetTimestamps( bool Set )
 //---------------------------------------------------------------
 void Loggable::Log( const std::string& message )
 {
-  if( logger != nullptr )
-  {
-    _Send( message );
-  }
+  Log( LogLevel::NONE, message );
 }
 //---------------------------------------------------------------
 void Loggable::Log( LogLevel level, const std::string& message )
@@ -40,8 +37,9 @@ void Loggable::Log( ErrorCode code )
 {
   if( logger != nullptr )
   {
-    std::string errCodeStr = ApplicationGlobalInfo::Instance().TranslateError( code );
-    _Send( errCodeStr );
+    std::string errCodeStr = code.GetErrorMessage();
+    LogLevel level = code.IsOk() ? LogLevel::INFO : LogLevel::ERROR;
+    Log( level, errCodeStr );
   }
 }
 //---------------------------------------------------------------

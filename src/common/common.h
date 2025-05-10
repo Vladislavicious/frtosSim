@@ -6,8 +6,22 @@
 //---------------------------------------------------------------
 bool stringCmpNoCase( const std::string&, const std::string& );
 //---------------------------------------------------------------
-enum class ErrorCode {
+enum class ErrorCodeEnum {
   ERR_OK = 0,
+};
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+//       ErrorCode class definition:
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+class ErrorCode {
+public:
+  ErrorCode( ErrorCodeEnum err );
+  bool IsOk() const;
+  ErrorCodeEnum GetValue() const;
+  std::string GetErrorMessage() const;
+private:
+  ErrorCodeEnum errorValue;
 };
 //---------------------------------------------------------------
 //       ApplicationGlobalInfo class definition:
@@ -19,7 +33,6 @@ public:
 
   void SetInitialTimeDelta( TimeSV appStartTime );
   TimeSV GetCurrentAppTime();
-  std::string TranslateError( ErrorCode error );
 private:
   ApplicationGlobalInfo();
   static ApplicationGlobalInfo* GlobalInfoInstance;

@@ -42,11 +42,9 @@ TEST( Common, timeReallyPassess ) {
 
 //---------------------------------------------------------------
 TEST( Common, errorOkCodeToString ) {
-  ApplicationGlobalInfo& info = ApplicationGlobalInfo::Instance();
-
-  ErrorCode result = ErrorCode::ERR_OK;
+  ErrorCode result{ ErrorCodeEnum::ERR_OK };
   std::string expectedStr{ "OK" };
 
-  EXPECT_STREQ( info.TranslateError( result ).c_str(), expectedStr.c_str() );
+  EXPECT_STREQ( result.GetErrorMessage().c_str(), expectedStr.c_str() );
 }
 //---------------------------------------------------------------
