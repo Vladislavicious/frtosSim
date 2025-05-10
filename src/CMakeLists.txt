@@ -16,10 +16,19 @@ include_directories(logging)
 add_subdirectory(thread)
 include_directories(thread)
 
+add_subdirectory(task)
+include_directories(task)
 
 set(SOURCE_FILES 
     main.cpp )
 
 add_executable(FrtosSim ${SOURCE_FILES})
-target_link_libraries(FrtosSim common config logging thread nlohmann_json::nlohmann_json)
+target_link_libraries(
+    FrtosSim 
+    common 
+    config 
+    logging 
+    thread 
+    task 
+    nlohmann_json::nlohmann_json)
 install(TARGETS FrtosSim DESTINATION ${DIVISIBLE_INSTALL_BIN_DIR})
