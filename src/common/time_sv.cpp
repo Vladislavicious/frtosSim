@@ -1,8 +1,10 @@
 #include "time_sv.h"
 #include <sstream>
 #include <chrono>
+#include <iomanip>
 //---------------------------------------------------------------
-constexpr const char* TIME_FORMAT = "%d.%m.%Y";
+constexpr const char* DATE_FORMAT = "%d.%m.%Y";
+constexpr const char* FULL_TIME_FORMAT = "%H:%M:%S:";
 
 //---------------------------------------------------------------
 //       TimeSV class implementation:
@@ -40,7 +42,24 @@ std::string TimeSV::GetTimeStr() const
   std::tm* t = std::gmtime( &temp );
 
   std::stringstream stroka;
-  stroka << std::put_time( t, TIME_FORMAT );
+  stroka << std::put_time( t, DATE_FORMAT );
+  return stroka.str();
+}
+
+//---------------------------------------------------------------
+
+std::string TimeSV::GetFullTimeStr() const
+{
+  using namespace std::chrono;
+
+  std::time_t temp = milliseconds / 1000 / 1000;
+  std::time_t micros = milliseconds % ( 1000 * 1000 );
+  std::tm* t = std::gmtime( &temp );
+
+  std::stringstream stroka;
+  stroka << std::put_time( t, FULL_TIME_FORMAT );
+  stroka << std::setfill( '0' ) << std::setw( 6 );
+  stroka << micros;
   return stroka.str();
 }
 

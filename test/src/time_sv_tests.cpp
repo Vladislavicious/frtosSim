@@ -4,7 +4,7 @@
 using namespace std;
 
 //---------------------------------------------------------------
-TEST( TimeSVtest, zeroTime ) {
+TEST( TimeSVtest, zeroTimeStr ) {
   TimeSV tim{ 0 };
 
   string expectedStr = "01.01.1970";
@@ -13,7 +13,7 @@ TEST( TimeSVtest, zeroTime ) {
 }
 //---------------------------------------------------------------
 
-TEST( TimeSVtest, curTime ) {
+TEST( TimeSVtest, timeStr ) {
   constexpr uint32_t mayTime = 1746467926;
   constexpr uint64_t mayTimeMs = mayTime * 1000ULL * 1000ULL;
   TimeSV tim{ mayTimeMs };
@@ -21,6 +21,18 @@ TEST( TimeSVtest, curTime ) {
   string expectedStr = "05.05.2025";
   int comparison = expectedStr.compare( tim.GetTimeStr() );
   EXPECT_EQ( 0, comparison );
+}
+//---------------------------------------------------------------
+TEST( TimeSVtest, fullTimeStr ) {
+  constexpr uint32_t lilTime = 11326;
+  constexpr uint32_t micros = 72614;
+  constexpr uint64_t mayTimeMs = lilTime * 1000ULL * 1000ULL + micros;
+  TimeSV tim{ mayTimeMs };
+
+  string timeStr{ "03:08:46" };
+  string microsStr{ "072614" };
+  string expectedStr = timeStr + ":" + microsStr;
+  EXPECT_STREQ( expectedStr.c_str(), tim.GetFullTimeStr().c_str() );
 }
 //---------------------------------------------------------------
 

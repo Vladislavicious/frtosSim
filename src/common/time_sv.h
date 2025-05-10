@@ -16,6 +16,7 @@ public:
 
   void UpdateTime( TimeType unixTime );
   std::string GetTimeStr() const;
+  std::string GetFullTimeStr() const;
   TimeType GetMs() const;
   TimeType GetTimePassedSince( TimeType timestamp ) const;
 private:

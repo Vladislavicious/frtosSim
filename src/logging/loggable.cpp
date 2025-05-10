@@ -1,4 +1,5 @@
 #include "loggable.h"
+#include "common.h"
 
 //---------------------------------------------------------------
 //       Loggable interface implementation:
@@ -11,5 +12,57 @@ Loggable::Loggable() :
 void Loggable::SetLogger( LoggerInterface* Logger )
 {
   logger = Logger;
+}
+//---------------------------------------------------------------
+void Loggable::SetTimestamps( bool Set )
+{
+  timestamps = Set;
+}
+//---------------------------------------------------------------
+void Loggable::Log( const std::string& message )
+{
+  if( logger != nullptr )
+  {
+    _Send( message );
+  }
+}
+//---------------------------------------------------------------
+void Loggable::Log( LogLevel level, const std::string& message )
+{
+  if( logger != nullptr )
+  {
+    ChangeLogLevel( level );
+    _Send( message );
+  }
+}
+//---------------------------------------------------------------
+void Loggable::Log( ErrorCode code )
+{
+  if( logger != nullptr )
+  {
+    std::string errCodeStr = ApplicationGlobalInfo::Instance().TranslateError( code );
+    _Send( errCodeStr );
+  }
+}
+//---------------------------------------------------------------
+void Loggable::_Send( const std::string& message )
+{
+  if( timestamps )
+  {
+    TimeSV currentTime = ApplicationGlobalInfo::Instance().GetCurrentAppTime();
+    std::string timestampStr = currentTime.GetFullTimeStr();
+    logger->Output( timestampStr + " " + message );
+  }
+  else
+    logger->Output( message );
+}
+//---------------------------------------------------------------
+void Loggable::ChangeLogLevel( LogLevel level )
+{
+  if( level != currentLogLevel )
+  {
+    logger->SetLogLevel( level );
+    currentLogLevel = level;
+  }
 }
 //---------------------------------------------------------------
