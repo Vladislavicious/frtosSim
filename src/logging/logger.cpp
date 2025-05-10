@@ -25,12 +25,28 @@ public:
   void Output( const std::string& data ) override {
     stream.open( FileName, std::ios::app );
     if( stream.is_open() ) {
-      stream << data;
+      stream << GetLevelString() + data;
+      // stream << data;
     }
     stream.flush();
     stream.close();
   };
 private:
+  const std::string GetLevelString() {
+    switch( GetLogLevel() )
+    {
+    case LogLevel::INFO:
+      return std::string( "Info: " );
+    case LogLevel::WARNING:
+      return std::string( "Warning: " );
+    case LogLevel::ERROR:
+      return std::string( "Error: " );
+
+    case LogLevel::NONE:
+    default:
+      return std::string( "" );
+    }
+  }
   std::ofstream stream;
   std::string FileName;
 };

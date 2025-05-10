@@ -25,7 +25,7 @@ TEST( logger, FileSingleWrite ) {
   EXPECT_TRUE( checkFile.is_open() );
 
   std::string fileContent{ "" };
-  checkFile >> fileContent;
+  getline( checkFile, fileContent );
   EXPECT_STREQ( outString.c_str(), fileContent.c_str() );
 }
 //---------------------------------------------------------------
@@ -50,7 +50,7 @@ TEST( logger, FileMultiWrite ) {
   EXPECT_TRUE( checkFile.is_open() );
 
   std::string fileContent{ "" };
-  checkFile >> fileContent;
+  getline( checkFile, fileContent );
   EXPECT_STREQ( expectedOutString.c_str(), fileContent.c_str() );
 }
 //---------------------------------------------------------------
@@ -70,7 +70,30 @@ TEST( logger, FileNullWrite ) {
   EXPECT_TRUE( checkFile.is_open() );
 
   std::string fileContent{ "" };
-  checkFile >> fileContent;
+  getline( checkFile, fileContent );
   EXPECT_STREQ( outString.c_str(), fileContent.c_str() );
+}
+//---------------------------------------------------------------
+TEST( logger, InfoLevelWrite ) {
+
+  LoggerConfig config;
+  ConfigError result = config.CheckConfig( loggerDataPath + std::string( "fileLog.json" ) );
+  EXPECT_TRUE( result.IsOk() );
+
+  LoggerInterface* logger = LoggerFabric::GetLogger( config );
+  EXPECT_TRUE( logger != nullptr );
+
+  logger->SetLogLevel( LogLevel::INFO );
+
+  std::string expectedStr{ "Info: 123" };
+  std::string outString = "123";
+  logger->Output( outString );
+
+  std::ifstream checkFile( config.GetLogFilepath() );
+  EXPECT_TRUE( checkFile.is_open() );
+
+  std::string fileContent{ "" };
+  getline( checkFile, fileContent );
+  EXPECT_STREQ( expectedStr.c_str(), fileContent.c_str() );
 }
 //---------------------------------------------------------------
