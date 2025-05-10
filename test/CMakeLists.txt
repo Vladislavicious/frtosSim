@@ -5,7 +5,8 @@ add_subdirectory(lib/googletest)
 
 include_directories(../src/common)
 include_directories(../src/config)
-include_directories(../json/include)
+include_directories(../src/logging)
+include_directories(../src/include)
 include_directories(lib/googletest/googletest/include)
 include_directories(lib/googletest/googlemock/include)
 
@@ -18,11 +19,12 @@ set(SOURCE_FILES
     src/config_tests.cpp
     src/loggerConfig_tests.cpp
     src/buildConfig_tests.cpp
+    src/logger_tests.cpp
     )
 
 add_compile_definitions(TEST_DATA_DIR="${PROJECT_SOURCE_DIR}/data")
 
 add_executable(my_tests ${SOURCE_FILES})
-target_link_libraries(my_tests common config gtest gmock nlohmann_json::nlohmann_json)
+target_link_libraries(my_tests common config logging gtest gmock nlohmann_json::nlohmann_json)
 install(TARGETS my_tests DESTINATION bin)
 

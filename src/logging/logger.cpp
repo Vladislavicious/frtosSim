@@ -1,7 +1,9 @@
 #include "logger.h"
-#include <iostream>
 #include <fstream>
+#include <iostream>
 //---------------------------------------------------------------
+// TODO:
+// Think of thread-independent solution
 class ConsoleLogger : public LoggerInterface
 {
 public:
@@ -15,14 +17,20 @@ class FileLogger : public LoggerInterface
 {
 public:
   FileLogger( const std::string& fileName ) :
-    stream( fileName ) {
+    FileName( fileName ) {
   };
-  ~FileLogger() override {};
+  ~FileLogger() override { stream.close(); };
   void Output( const std::string& data ) override {
-    stream << data;
+    stream.open( FileName );
+    if( stream.is_open() ) {
+      stream << data;
+    }
+    stream.flush();
+    stream.close();
   };
 private:
   std::ofstream stream;
+  std::string FileName;
 };
 //---------------------------------------------------------------
 //       LoggerFabric class implementation:

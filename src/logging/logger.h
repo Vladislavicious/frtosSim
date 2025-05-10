@@ -10,7 +10,7 @@
 class LoggerInterface
 {
 public:
-  virtual ~LoggerInterface() = 0;
+  virtual ~LoggerInterface() {};
   virtual void Output( const std::string& data ) = 0;
 };
 //---------------------------------------------------------------
