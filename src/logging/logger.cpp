@@ -18,10 +18,12 @@ class FileLogger : public LoggerInterface
 public:
   FileLogger( const std::string& fileName ) :
     FileName( fileName ) {
+    stream.open( FileName, std::ios::trunc );
+    stream.close();
   };
   ~FileLogger() override { stream.close(); };
   void Output( const std::string& data ) override {
-    stream.open( FileName );
+    stream.open( FileName, std::ios::app );
     if( stream.is_open() ) {
       stream << data;
     }
