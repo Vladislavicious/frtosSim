@@ -2,7 +2,7 @@
 #define BUILD_CONFIG_H_
 
 #include "config.h"
-
+#include "fileWork.h"
 //---------------------------------------------------------------
 //       BuildConfig class definition:
 //---------------------------------------------------------------

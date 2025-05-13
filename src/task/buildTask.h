@@ -4,24 +4,20 @@
 #include "common.h"
 #include "taskInterface.h"
 #include "buildConfig.h"
-//---------------------------------------------------------------
-struct BuildProcess
-{
-
-};
-//---------------------------------------------------------------
-//       BuildTask interface definition:
-//---------------------------------------------------------------
 // set start time for BuildTask
 // BuildTask starts from main
 // BuildTask itself is not a std::thread functor
-
+//---------------------------------------------------------------
+//       BuildTask interface definition:
+//---------------------------------------------------------------
 class BuildTask : public TaskInterface
 {
 public:
-  BuildTask();
+  /// @param config should already be validated
+  explicit BuildTask( BuildConfig Config );
 private:
   ErrorCode TaskOperation() override;
+  BuildConfig config;
 };
 //---------------------------------------------------------------
 #endif // BUILD_TASK_H_

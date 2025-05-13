@@ -11,6 +11,7 @@ set(SOURCE_FILES
 )
 
 add_library(config SHARED STATIC ${SOURCE_FILES})
+target_link_libraries(config PRIVATE common) # link common agains config
 
 install(TARGETS config DESTINATION ${DIVISIBLE_INSTALL_LIB_DIR})
 install(FILES 

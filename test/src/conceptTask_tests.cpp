@@ -33,7 +33,7 @@ bool CheckTimeBounds( TimeSV endTime )
 }
 //---------------------------------------------------------------
 // polling at 50Hz gives almost same results as future.wait() 
-TEST( ConceptTestTask, PollingTest ) {
+TEST( conceptTestTask, PollingTest ) {
   std::vector<ConceptTestTask> tasks;
   std::vector<std::future<void>> futures;
 
@@ -77,8 +77,7 @@ TEST( ConceptTestTask, PollingTest ) {
   }
 }
 //---------------------------------------------------------------
-// polling at 50Hz gives almost same results as future.wait() 
-TEST( ConceptTestTask, asyncWaitTest ) {
+TEST( conceptTestTask, asyncWaitTest ) {
   std::vector<ConceptTestTask> tasks;
   std::vector<std::future<void>> futures;
 

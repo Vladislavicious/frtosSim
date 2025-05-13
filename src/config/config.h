@@ -5,7 +5,7 @@
 using json = nlohmann::json;
 
 #include "common.h"
-
+#include "fileWork.h"
 //---------------------------------------------------------------
 enum class ConfigErrorEnum {
   // base
@@ -19,6 +19,7 @@ enum class ConfigErrorEnum {
   NO_LOG_FILEPATH,
   // builder
   NO_BUILD_FILEPATH,
+  BUILD_FILE_NOT_EXIST,
   // base
   HAVENT_CHECKED,
 };

@@ -15,9 +15,11 @@ TEST( buildConfig, creation ) {
 TEST( buildConfig, ConfigRead ) {
   BuildConfig conf;
   ConfigError result = conf.CheckConfig( buildConfigDataPath + std::string( "build.json" ) );
-
+  const std::string ExpectedBuildFilepath = buildConfigDataPath + std::string( "smh.file" );
   EXPECT_TRUE( result.IsOk() );
-  EXPECT_STREQ( conf.GetBuildFilepath().c_str(), "./smh.file" );
+
+  std::string abspath = GetAbsPath( conf.GetBuildFilepath() );
+  EXPECT_STREQ( abspath.c_str(), ExpectedBuildFilepath.c_str() );
 }
 //---------------------------------------------------------------
 TEST( buildConfig, badFileFormat ) {

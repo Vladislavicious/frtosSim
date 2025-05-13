@@ -24,7 +24,15 @@ ConfigError BuildConfig::ReadConfig( const json& Config )
     return ConfigError( ConfigErrorEnum::NO_BUILD_FILEPATH );
   }
 
-  buildFilepath = buildFilepathStr;
+  bool buildFileExist = DoFileExist( buildFilepathStr );
+  if( buildFileExist )
+  {
+    buildFilepath = buildFilepathStr;
+  }
+  else
+  {
+    return ConfigError( ConfigErrorEnum::BUILD_FILE_NOT_EXIST );
+  }
 
   return ConfigError( ConfigErrorEnum::OK );
 }

@@ -83,10 +83,9 @@ ConfigError BaseConfig::CheckFileValidity( std::string Path )
   if( !Path.ends_with( ".json" ) )
     return ConfigError( ConfigErrorEnum::BAD_FILE_NAME );
 
-  if( !std::filesystem::exists( Path ) )
+  if( !DoFileExist( Path ) )
     return ConfigError( ConfigErrorEnum::NO_CONFIG_FILE );
 
   return ConfigError( ConfigErrorEnum::OK );
 }
 //---------------------------------------------------------------
-
