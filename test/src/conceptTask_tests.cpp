@@ -4,21 +4,44 @@
 #include <vector>
 #include <future>
 
-#include "buildTask.h"
+#include "taskInterface.h"
 
 using namespace std;
 
+constexpr const int WAIT_COUNT = 5;
+constexpr const int WAIT_PERIOD_MS = 30;
+
+//---------------------------------------------------------------
+class ConceptTestTask : public TaskInterface
+{
+public:
+  ConceptTestTask() {};
+private:
+  ErrorCode TaskOperation() override {
+    for( int i = 0; i <= WAIT_COUNT; ++i ) {
+      std::this_thread::sleep_for( std::chrono::milliseconds( WAIT_PERIOD_MS ) ); // Имитация работы
+    }
+    return ErrorCode{ ErrorCodeEnum::ERR_OK };
+  };
+};
+//---------------------------------------------------------------
+bool CheckTimeBounds( TimeSV endTime )
+{
+  const TimeSV upBound{ 1000 * WAIT_PERIOD_MS * WAIT_COUNT * 2 };
+  const TimeSV lowBound{ 1000 * WAIT_PERIOD_MS * WAIT_COUNT };
+  return ( endTime > lowBound ) && ( endTime < upBound );
+}
 //---------------------------------------------------------------
 // polling at 50Hz gives almost same results as future.wait() 
-TEST( BuildTask, PollingTest ) {
-  std::vector<BuildTask> tasks;
+TEST( ConceptTestTask, PollingTest ) {
+  std::vector<ConceptTestTask> tasks;
   std::vector<std::future<void>> futures;
 
   ApplicationGlobalInfo::Instance().SetInitialTimeDelta( TimeSV::Now() );
 
-  tasks.push_back( BuildTask() );
-  tasks.push_back( BuildTask() );
-  tasks.push_back( BuildTask() );
+  tasks.push_back( ConceptTestTask() );
+  tasks.push_back( ConceptTestTask() );
+  tasks.push_back( ConceptTestTask() );
 
   for( auto& task : tasks ) {
     task.SetInitialTime( ApplicationGlobalInfo::Instance().GetCurrentAppTime() );
@@ -50,23 +73,20 @@ TEST( BuildTask, PollingTest ) {
 
   for( auto& task : tasks ) {
     EXPECT_TRUE( task.HasEnded() );
-    TimeSV endTime = task.GetEndTime();
-    const TimeSV upBound{ 999999 };
-    const TimeSV lowBound{ 500000 };
-    EXPECT_TRUE( ( endTime > lowBound ) && ( endTime < upBound ) );
+    EXPECT_TRUE( CheckTimeBounds( task.GetEndTime() ) );
   }
 }
 //---------------------------------------------------------------
 // polling at 50Hz gives almost same results as future.wait() 
-TEST( BuildTask, asyncWaitTest ) {
-  std::vector<BuildTask> tasks;
+TEST( ConceptTestTask, asyncWaitTest ) {
+  std::vector<ConceptTestTask> tasks;
   std::vector<std::future<void>> futures;
 
   ApplicationGlobalInfo::Instance().SetInitialTimeDelta( TimeSV::Now() );
 
-  tasks.push_back( BuildTask() );
-  tasks.push_back( BuildTask() );
-  tasks.push_back( BuildTask() );
+  tasks.push_back( ConceptTestTask() );
+  tasks.push_back( ConceptTestTask() );
+  tasks.push_back( ConceptTestTask() );
 
   for( auto& task : tasks ) {
     task.SetInitialTime( ApplicationGlobalInfo::Instance().GetCurrentAppTime() );
@@ -86,10 +106,7 @@ TEST( BuildTask, asyncWaitTest ) {
 
   for( auto& task : tasks ) {
     EXPECT_TRUE( task.HasEnded() );
-    TimeSV endTime = task.GetEndTime();
-    const TimeSV upBound{ 999999 };
-    const TimeSV lowBound{ 500000 };
-    EXPECT_TRUE( ( endTime > lowBound ) && ( endTime < upBound ) );
+    EXPECT_TRUE( CheckTimeBounds( task.GetEndTime() ) );
   }
 }
 //---------------------------------------------------------------

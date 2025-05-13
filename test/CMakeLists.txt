@@ -21,7 +21,7 @@ set(SOURCE_FILES
     src/loggerConfig_tests.cpp
     src/buildConfig_tests.cpp
     src/logger_tests.cpp
-    src/buildTask_tests.cpp
+    src/conceptTask_tests.cpp
     )
 
 add_compile_definitions(TEST_DATA_DIR="${PROJECT_SOURCE_DIR}/data")
