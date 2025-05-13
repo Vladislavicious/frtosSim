@@ -9,18 +9,21 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 //---------------------------------------------------------------
-enum class ConnectionTypeEnum {
+enum ConnectionTypeEnum {
   CNT_UART,
   CNT_I2C,
   CNT_SPI,
   CNT_NOT_SET,
   CNT_UNKNOWN
 };
-ConnectionTypeEnum FromString( const std::string& str );
-std::string ToString( ConnectionTypeEnum type );
 
-void to_json( json& j, const ConnectionTypeEnum& t );
-void from_json( const json& j, ConnectionTypeEnum& t );
+NLOHMANN_JSON_SERIALIZE_ENUM( ConnectionTypeEnum, {
+  { ConnectionTypeEnum::CNT_UNKNOWN, nullptr },
+  { ConnectionTypeEnum::CNT_UART, "uart" },
+  { ConnectionTypeEnum::CNT_I2C, "i2c" },
+  { ConnectionTypeEnum::CNT_SPI, "spi" },
+  { ConnectionTypeEnum::CNT_NOT_SET, "none" },
+  } );
 //---------------------------------------------------------------
 //       ConnectionIdentificator class definition:
 //---------------------------------------------------------------
@@ -30,6 +33,10 @@ struct ConnectionIdentificator
   std::string hostSimulatorName{ "" };
   ConnectionTypeEnum connectionType{ ConnectionTypeEnum::CNT_NOT_SET };
 };
+
+bool operator==( const ConnectionIdentificator&, const ConnectionIdentificator& );
+void to_json( json& j, const ConnectionIdentificator& t );
+void from_json( const json& j, ConnectionIdentificator& t );
 //---------------------------------------------------------------
 //       ConnectionDescriptor class definition:
 //---------------------------------------------------------------

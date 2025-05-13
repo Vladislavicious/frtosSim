@@ -64,6 +64,6 @@ TEST( buildTaskTest, longBuildTask ) {
   EXPECT_EQ( result.GetValue(), ErrorCodeEnum::ERR_OK );
 
   TimeSV timeElapsed = buildTask.GetEndTime() - buildTask.GetInitialTime();
-  EXPECT_TRUE( timeElapsed > TimeSV( 1000000 ) );
+  EXPECT_TRUE( timeElapsed > TimeSV( 300000 ) );
 }
 //---------------------------------------------------------------

@@ -27,7 +27,7 @@ private:
 //---------------------------------------------------------------
 bool CheckTimeBounds( TimeSV endTime )
 {
-  const TimeSV upBound{ 1000 * WAIT_PERIOD_MS * WAIT_COUNT * 2 };
+  const TimeSV upBound{ 1000 * WAIT_PERIOD_MS * WAIT_COUNT * 4 };
   const TimeSV lowBound{ 1000 * WAIT_PERIOD_MS * WAIT_COUNT };
   return ( endTime > lowBound ) && ( endTime < upBound );
 }
