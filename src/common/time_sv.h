@@ -25,5 +25,7 @@ private:
 //---------------------------------------------------------------
 TimeSV operator-( const TimeSV&, const TimeSV& );
 bool operator==( const TimeSV&, const TimeSV& );
+bool operator<( const TimeSV&, const TimeSV& );
+bool operator>( const TimeSV&, const TimeSV& );
 //---------------------------------------------------------------
 #endif // TIME_SV_H_

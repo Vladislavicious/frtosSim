@@ -90,3 +90,13 @@ bool operator==( const TimeSV& first, const TimeSV& second )
   return first.GetMs() == second.GetMs();
 }
 //---------------------------------------------------------------
+bool operator<( const TimeSV& first, const TimeSV& second )
+{
+  return first.GetMs() < second.GetMs();
+}
+//---------------------------------------------------------------
+bool operator>( const TimeSV& first, const TimeSV& second )
+{
+  return first.GetMs() > second.GetMs();
+}
+//---------------------------------------------------------------
