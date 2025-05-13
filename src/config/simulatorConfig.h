@@ -6,12 +6,21 @@
 #include "config.h"
 #include "fileWork.h"
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+//---------------------------------------------------------------
 enum class ConnectionTypeEnum {
   CNT_UART,
   CNT_I2C,
   CNT_SPI,
-  CNT_NOT_SET
+  CNT_NOT_SET,
+  CNT_UNKNOWN
 };
+ConnectionTypeEnum FromString( const std::string& str );
+std::string ToString( ConnectionTypeEnum type );
+
+void to_json( json& j, const ConnectionTypeEnum& t );
+void from_json( const json& j, ConnectionTypeEnum& t );
 //---------------------------------------------------------------
 //       ConnectionIdentificator class definition:
 //---------------------------------------------------------------
@@ -42,10 +51,8 @@ class SimulatorConfig : public BaseConfig
 {
 public:
   SimulatorConfig();
-  std::string GetBuildFilepath();
 private:
   ConfigError ReadConfig( const json& Config ) override;
-  std::string buildFilepath;
 
   double simulationSpeed{ 1.0f };
   std::string simulatorName{ "" };
