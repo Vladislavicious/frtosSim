@@ -8,6 +8,8 @@ set(SOURCE_FILES
     loggerConfig.cpp
     buildConfig.h
     buildConfig.cpp
+    simulatorConfig.h
+    simulatorConfig.cpp
 )
 
 add_library(config SHARED STATIC ${SOURCE_FILES})
@@ -18,4 +20,5 @@ install(FILES
     config.h 
     loggerConfig.h
     buildConfig.h
+    simulatorConfig.h
         DESTINATION ${DIVISIBLE_INSTALL_INCLUDE_DIR})

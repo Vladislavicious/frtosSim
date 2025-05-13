@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdio>
 //---------------------------------------------------------------
+// TODO: change location
 class MyPipe
 {
 public:
@@ -37,7 +38,7 @@ private:
   std::string mode;
 };
 //---------------------------------------------------------------
-//       BuildTask interface implementation:
+//       BuildTask class implementation:
 //---------------------------------------------------------------
 BuildTask::BuildTask( BuildConfig Config ) :
   config{ Config }

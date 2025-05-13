@@ -8,7 +8,7 @@
 // BuildTask starts from main
 // BuildTask itself is not a std::thread functor
 //---------------------------------------------------------------
-//       BuildTask interface definition:
+//       BuildTask class definition:
 //---------------------------------------------------------------
 class BuildTask : public TaskInterface
 {
