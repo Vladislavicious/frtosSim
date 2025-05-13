@@ -15,9 +15,11 @@ class BuildTask : public TaskInterface
 public:
   /// @param config should already be validated
   explicit BuildTask( BuildConfig Config );
+  void SetOutputStream( std::ostream* Stream );
 private:
   ErrorCode TaskOperation() override;
   BuildConfig config;
+  std::ostream* stream{ nullptr };
 };
 //---------------------------------------------------------------
 #endif // BUILD_TASK_H_

@@ -44,6 +44,11 @@ BuildTask::BuildTask( BuildConfig Config ) :
 {
 }
 //---------------------------------------------------------------
+void BuildTask::SetOutputStream( std::ostream* Stream )
+{
+  stream = Stream;
+}
+//---------------------------------------------------------------
 ErrorCode BuildTask::TaskOperation()
 {
   const std::string MakeCommand = "make -f ";
@@ -51,9 +56,10 @@ ErrorCode BuildTask::TaskOperation()
   const std::string fullCommand = MakeCommand + path;
   MyPipe pip( fullCommand, "r" );
 
-
   if( !pip.Open() ) {
-    std::cerr << "Error invoking make" << std::endl;
+    if( stream ) {
+      *stream << "Error invoking make";
+    }
     return ErrorCode{ ErrorCodeEnum::ERR_MAKE_INVOKATION };
   }
 
@@ -68,15 +74,17 @@ ErrorCode BuildTask::TaskOperation()
   int status = pip.Close();
 
   if( status != 0 ) {
-    std::cerr << "build error: " << status << std::endl;
-    std::cerr << "make output: " << std::endl;
-    std::cerr << result.str() << std::endl;
+    if( stream ) {
+      *stream << "build error: " << status << std::endl;
+      *stream << result.str();
+    }
 
     return ErrorCode{ ErrorCodeEnum::ERR_MAKE_BUILD };
   }
 
-  std::cout << "make output: " << std::endl;
-  std::cout << result.str() << std::endl;
+  if( stream ) {
+    *stream << result.str();
+  }
 
   return ErrorCode{ ErrorCodeEnum::ERR_OK };
 }
