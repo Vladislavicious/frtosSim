@@ -33,6 +33,11 @@ TimeSV TaskInterface::GetEndTime()
   return endTime;
 }
 //---------------------------------------------------------------
+ErrorCode TaskInterface::GetResult()
+{
+  return result;
+}
+//---------------------------------------------------------------
 void TaskInterface::operator()()
 {
   ended = false;

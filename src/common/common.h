@@ -8,7 +8,10 @@ bool stringCmpNoCase( const std::string&, const std::string& );
 //---------------------------------------------------------------
 enum class ErrorCodeEnum {
   ERR_OK,
-  ERR_TSK_NOT_STARTED
+  ERR_TSK_NOT_STARTED,
+  ERR_MAKE_INVOKATION,
+  ERR_MAKE_BUILD,
+  ERR_BAD
 };
 //---------------------------------------------------------------
 //---------------------------------------------------------------

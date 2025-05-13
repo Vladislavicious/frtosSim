@@ -16,6 +16,7 @@ public:
   bool HasEnded() const;
 
   TimeSV GetEndTime();
+  ErrorCode GetResult();
 
   void operator()();
 protected:
