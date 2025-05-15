@@ -30,7 +30,7 @@ TEST( connectionTypes, readBadValue ) {
 
   json j = "aboba";
   auto t = j.template get<ConnectionTypeEnum>();
-  EXPECT_EQ( t, ConnectionTypeEnum::CNT_UNKNOWN );
+  EXPECT_EQ( t, expectedType );
 }
 
 void compar( std::string strType, std::string strConName,
@@ -67,4 +67,9 @@ TEST( connectionTypes, readConIdentificators )
   id.connectionName = "";
   id.hostSimulatorName = "";
   compar( "uart", id.connectionName, id.hostSimulatorName, id );
+
+  id.connectionType = ConnectionTypeEnum::CNT_SPI;
+  id.connectionName = "1234";
+  id.hostSimulatorName = "something with space and!!2";
+  compar( "spi", id.connectionName, id.hostSimulatorName, id );
 }
