@@ -42,6 +42,13 @@ bool operator==( const ConnectionDescriptor& first, const ConnectionDescriptor& 
 //---------------------------------------------------------------
 void to_json( json& j, const ConnectionDescriptor& t )
 {
+  j = json{};
+  j["id"] = t.id;
+  j["connectsTo"] = t.connectsTo;
+  j["rxCapacity"] = t.rxCapacity;
+  j["txCapacity"] = t.txCapacity;
+  j["rxMinPacketSize"] = t.rxMinPacketSize;
+  j["txMinPacketSize"] = t.txMinPacketSize;
 }
 //---------------------------------------------------------------
 void from_json( const json& j, ConnectionDescriptor& t )

@@ -74,27 +74,32 @@ TEST( connectionTypes, readConIdentificators )
   compar( "spi", id.connectionName, id.hostSimulatorName, id );
 }
 
-void compar( std::string id_str, std::string rxCapacity_str,
-  std::string rxMinPacketSize_str, std::string txCapacity_str,
-  std::string txMinPacketSize_str, std::string connectsTo_str,
-  ConnectionDescriptor expectedDescr )
+void compar( ConnectionDescriptor expectedDescr )
 {
+  json j1 = expectedDescr.id;
+
+  std::string id_str = j1.dump();
+  json newJ = expectedDescr.connectsTo;
+
+  std::string connectsTo_str = newJ.dump();
+
   std::stringstream jsonString;
   jsonString << R"({"id": )" << id_str << "," << std::endl;
-  jsonString << R"("rxCapacity": )" << rxCapacity_str << "," << std::endl;
-  jsonString << R"("rxMinPacketSize": )" << rxMinPacketSize_str << "," << std::endl;
+  jsonString << R"("rxCapacity": )" << std::to_string( expectedDescr.rxCapacity ) << "," << std::endl;
+  jsonString << R"("rxMinPacketSize": )" << std::to_string( expectedDescr.rxMinPacketSize ) << "," << std::endl;
 
-  jsonString << R"("txCapacity": )" << txCapacity_str << "," << std::endl;
-  jsonString << R"("txMinPacketSize": )" << txMinPacketSize_str << "," << std::endl;
+  jsonString << R"("txCapacity": )" << std::to_string( expectedDescr.txCapacity ) << "," << std::endl;
+  jsonString << R"("txMinPacketSize": )" << std::to_string( expectedDescr.txMinPacketSize ) << "," << std::endl;
   jsonString << R"("connectsTo": )" << connectsTo_str << "\n}";
 
   json j = json::parse( jsonString.str() );
   auto parsed = j.template get<ConnectionDescriptor>();
 
   EXPECT_EQ( parsed, expectedDescr );
-}
-// {
 
+  json converted = expectedDescr;
+  EXPECT_EQ( j, converted );
+}
 
 
 TEST( connectionTypes, readConnectionDescr )
@@ -104,26 +109,13 @@ TEST( connectionTypes, readConnectionDescr )
   id.connectionType = ConnectionTypeEnum::CNT_SPI;
   id.hostSimulatorName = "hostSim";
 
-  json j = id;
-
-  std::string id_str = j.dump();
-
   uint32_t rxCapacity = 5;
   uint32_t rxMinPacketSize = 3;
   uint32_t txCapacity = 50;
   uint32_t txMinPacketSize = 30;
 
-  std::string rxCapacity_str{ std::to_string( rxCapacity ) };
-  std::string rxMinPacketSize_str{ std::to_string( rxMinPacketSize ) };
-  std::string txCapacity_str{ std::to_string( txCapacity ) };
-  std::string txMinPacketSize_str{ std::to_string( txMinPacketSize ) };
-
   ConnectionIdentificator conn = id;
   conn.connectionType = ConnectionTypeEnum::CNT_UART;
-
-  json newJ = conn;
-
-  std::string connectsTo_str = newJ.dump();
 
   ConnectionDescriptor expectedDescr;
   expectedDescr.id = id;
@@ -133,7 +125,5 @@ TEST( connectionTypes, readConnectionDescr )
   expectedDescr.txMinPacketSize = txMinPacketSize;
   expectedDescr.connectsTo = conn;
 
-  compar( id_str, rxCapacity_str,
-    rxMinPacketSize_str, txCapacity_str,
-    txMinPacketSize_str, connectsTo_str, expectedDescr );
+  compar( expectedDescr );
 }
