@@ -51,6 +51,10 @@ struct ConnectionDescriptor
   cnt_size_t txMinPacketSize{ 1 };
   ConnectionIdentificator connectsTo;
 };
+
+bool operator==( const ConnectionDescriptor&, const ConnectionDescriptor& );
+void to_json( json& j, const ConnectionDescriptor& t );
+void from_json( const json& j, ConnectionDescriptor& t );
 //---------------------------------------------------------------
 //       SimulatorConfig class definition:
 //---------------------------------------------------------------
