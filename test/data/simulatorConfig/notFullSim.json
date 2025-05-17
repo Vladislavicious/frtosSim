@@ -1,0 +1,5 @@
+{
+  "simRunnerFilepath": "file.exe",
+  "simulatorName": "mySim",
+  "availableInterfaces": []
+}

@@ -35,3 +35,33 @@ TEST( simulatorConfig, GoodConfig ) {
   EXPECT_EQ( config.GetAvailableInterfaces(), interfaces );
 }
 //---------------------------------------------------------------
+TEST( simulatorConfig, NotFullConfig ) {
+  SimulatorConfig config;
+  ConfigError result = config.CheckConfig( simConfigDataPath + std::string( "notFullSim.json" ) );
+
+  EXPECT_EQ( result, ConfigError{ ConfigErrorEnum::OK } );
+
+  EXPECT_STREQ( config.GetRunFilepath().c_str(), "file.exe" );
+  EXPECT_EQ( config.GetSimulationSpeed(), 1.0 );
+  EXPECT_EQ( config.GetSimulatorName(), "mySim" );
+  EXPECT_STREQ( config.GetLoggerConfigPath().c_str(), "" );
+
+  std::vector<ConnectionDescriptor> interfaces;
+
+  EXPECT_EQ( config.GetAvailableInterfaces(), interfaces );
+}
+//---------------------------------------------------------------
+TEST( simulatorConfig, NoInterfaces ) {
+  SimulatorConfig config;
+  ConfigError result = config.CheckConfig( simConfigDataPath + std::string( "noInterfaces.json" ) );
+
+  EXPECT_EQ( result, ConfigError{ ConfigErrorEnum::NO_AVAILABLE_INTERFACES } );
+}
+//---------------------------------------------------------------
+TEST( simulatorConfig, BadInterfaces ) {
+  SimulatorConfig config;
+  ConfigError result = config.CheckConfig( simConfigDataPath + std::string( "BadInterfaces.json" ) );
+
+  EXPECT_EQ( result, ConfigError{ ConfigErrorEnum::NO_AVAILABLE_INTERFACES } );
+}
+//---------------------------------------------------------------

@@ -1,0 +1,13 @@
+{
+  "simRunnerFilepath": "file.exe",
+  "simulatorName": "mySim",
+  "availableInterfaces": [
+    {
+      "connectsTo": {
+        "connectionName": ""
+      },
+      "rxCapacity": 5,
+      "txMinPacketSize": 3
+    }
+  ]
+}
