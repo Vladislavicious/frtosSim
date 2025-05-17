@@ -17,10 +17,12 @@ public:
 
   TimeSV GetEndTime();
   ErrorCode GetResult();
+  void SetOutputStream( std::ostream* Stream );
 
   void operator()();
 protected:
   virtual ErrorCode TaskOperation() = 0;
+  std::ostream* stream{ nullptr };
 private:
 
   bool ended{ false };

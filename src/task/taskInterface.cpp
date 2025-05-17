@@ -38,6 +38,11 @@ ErrorCode TaskInterface::GetResult()
   return result;
 }
 //---------------------------------------------------------------
+void TaskInterface::SetOutputStream( std::ostream* Stream )
+{
+  stream = Stream;
+}
+//---------------------------------------------------------------
 void TaskInterface::operator()()
 {
   ended = false;

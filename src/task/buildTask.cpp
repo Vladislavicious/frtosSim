@@ -10,11 +10,6 @@ BuildTask::BuildTask( BuildConfig Config ) :
 {
 }
 //---------------------------------------------------------------
-void BuildTask::SetOutputStream( std::ostream* Stream )
-{
-  stream = Stream;
-}
-//---------------------------------------------------------------
 ErrorCode BuildTask::TaskOperation()
 {
   const std::string MakeCommand = "make -f ";
