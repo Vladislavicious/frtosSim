@@ -13,6 +13,7 @@ enum class ErrorCodeEnum {
   ERR_MAKE_BUILD,
   ERR_SIMULATION_CALL,
   ERR_SIMULATION_ERROR,
+  ERR_TASK_KILLED,
   ERR_BAD
 };
 //---------------------------------------------------------------

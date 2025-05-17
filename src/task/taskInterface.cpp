@@ -47,9 +47,17 @@ void TaskInterface::operator()()
 {
   ended = false;
   startTime = ApplicationGlobalInfo::Instance().GetCurrentAppTime();
-  
+
   result = TaskOperation();
-  
+
   ended = true;
   endTime = ApplicationGlobalInfo::Instance().GetCurrentAppTime();
-} 
+}
+//---------------------------------------------------------------
+void TaskInterface::Kill()
+{
+  ended = true;
+  pip.Close();
+  result = ErrorCodeEnum::ERR_TASK_KILLED;
+}
+//---------------------------------------------------------------

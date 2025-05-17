@@ -9,6 +9,7 @@
 class MyPipe
 {
 public:
+  MyPipe() {};
   MyPipe( std::string Command, std::string Mode );
   bool Open();
   int Close();
@@ -21,8 +22,8 @@ public:
   };
 private:
   FILE* pipe{ nullptr };
-  std::string command;
-  std::string mode;
+  std::string command{ "" };
+  std::string mode{ "" };
 };
 //---------------------------------------------------------------
 #endif // MY_PIPE_H_

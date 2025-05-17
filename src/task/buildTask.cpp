@@ -1,7 +1,6 @@
 #include "buildTask.h"
 #include <iostream>
 #include <cstdio>
-#include "myPipe.h"
 //---------------------------------------------------------------
 //       BuildTask class implementation:
 //---------------------------------------------------------------
@@ -15,7 +14,8 @@ ErrorCode BuildTask::TaskOperation()
   const std::string MakeCommand = "make -f ";
   const std::string path = config.GetBuildFilepath();
   const std::string fullCommand = MakeCommand + path;
-  MyPipe pip( fullCommand, "r" );
+
+  pip = MyPipe( fullCommand, "r" );
 
   if( !pip.Open() ) {
     if( stream ) {

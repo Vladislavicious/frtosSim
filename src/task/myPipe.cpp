@@ -15,13 +15,11 @@ bool MyPipe::Open()
 
 int MyPipe::Close()
 {
+  if( pipe )
   {
-    if( pipe )
-    {
-      int retVal = pclose( pipe );
-      pipe = nullptr;
-      return retVal;
-    }
-    return 0;
+    int retVal = pclose( pipe );
+    pipe = nullptr;
+    return retVal;
   }
+  return 0;
 }

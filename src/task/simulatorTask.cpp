@@ -29,7 +29,7 @@ ErrorCode SimulatorTask::TaskOperation()
 
   const std::string path = config.GetRunFilepath();
 
-  MyPipe pip( path, "r" );
+  pip = MyPipe( path, "r" );
 
   if( !pip.Open() ) {
     if( stream ) {
@@ -41,6 +41,7 @@ ErrorCode SimulatorTask::TaskOperation()
   char buffer[128];
   std::stringstream result;
 
+  // TODO: because of this infinite loop, it's hard to reach to pip
   while( pip.Read( buffer, sizeof( buffer ) ) ) {
     result << buffer;
   }

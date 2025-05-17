@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "time_sv.h"
+#include "myPipe.h"
 //---------------------------------------------------------------
 //       TaskInterface interface definition:
 //---------------------------------------------------------------
@@ -20,9 +21,12 @@ public:
   void SetOutputStream( std::ostream* Stream );
 
   void operator()();
+  void Kill();
 protected:
   virtual ErrorCode TaskOperation() = 0;
   std::ostream* stream{ nullptr };
+  MyPipe pip;
+
 private:
 
   bool ended{ false };
