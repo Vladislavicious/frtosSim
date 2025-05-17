@@ -8,7 +8,7 @@
 
 using namespace std;
 
-static const std::string SimulatorConfigPath = std::string( TEST_DATA_DIR ) + std::string( "/simulatorTask/" );
+static const std::string SimTaskConfigPath = std::string( TEST_DATA_DIR ) + std::string( "/simulatorTask/" );
 //---------------------------------------------------------------
 TEST( simulatorTaskTest, creation ) {
   EXPECT_FALSE( false );
