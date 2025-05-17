@@ -12,7 +12,7 @@ static const std::string systemConfigDataPath = std::string( TEST_DATA_DIR ) + s
 TEST( systemConfig, readGoodTypes )
 {
   SystemConfig config;
-  ConfigError result = config.CheckConfig( systemConfigDataPath + std::string( "SystemGood.json" ) );
+  ConfigError result = config.ParseConfig( systemConfigDataPath + std::string( "SystemGood.json" ) );
   EXPECT_TRUE( result.IsOk() );
 
   EXPECT_STREQ( config.GetLoggerConfigPath().c_str(), "log.json" );
@@ -28,7 +28,7 @@ TEST( systemConfig, readGoodTypes )
 TEST( systemConfig, readEmpty )
 {
   SystemConfig config;
-  ConfigError result = config.CheckConfig( systemConfigDataPath + std::string( "SystemEmpty.json" ) );
+  ConfigError result = config.ParseConfig( systemConfigDataPath + std::string( "SystemEmpty.json" ) );
   EXPECT_TRUE( result.IsOk() );
   EXPECT_STREQ( config.GetLoggerConfigPath().c_str(), "" );
 
@@ -40,7 +40,7 @@ TEST( systemConfig, readEmpty )
 TEST( systemConfig, readMkArray )
 {
   SystemConfig config;
-  ConfigError result = config.CheckConfig( systemConfigDataPath + std::string( "SystemMany.json" ) );
+  ConfigError result = config.ParseConfig( systemConfigDataPath + std::string( "SystemMany.json" ) );
   EXPECT_TRUE( result.IsOk() );
 
   EXPECT_STREQ( config.GetLoggerConfigPath().c_str(), "" );

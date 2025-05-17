@@ -12,7 +12,7 @@ static const std::string loggerDataPath = std::string( TEST_DATA_DIR ) + std::st
 TEST( logger, FileSingleWrite ) {
 
   LoggerConfig config;
-  ConfigError result = config.CheckConfig( loggerDataPath + std::string( "fileLog.json" ) );
+  ConfigError result = config.ParseConfig( loggerDataPath + std::string( "fileLog.json" ) );
   EXPECT_TRUE( result.IsOk() );
 
   LoggerInterface* logger = LoggerFabric::GetLogger( config );
@@ -32,7 +32,7 @@ TEST( logger, FileSingleWrite ) {
 TEST( logger, FileMultiWrite ) {
 
   LoggerConfig config;
-  ConfigError result = config.CheckConfig( loggerDataPath + std::string( "fileLog.json" ) );
+  ConfigError result = config.ParseConfig( loggerDataPath + std::string( "fileLog.json" ) );
   EXPECT_TRUE( result.IsOk() );
 
   LoggerInterface* logger = LoggerFabric::GetLogger( config );
@@ -57,7 +57,7 @@ TEST( logger, FileMultiWrite ) {
 TEST( logger, FileNullWrite ) {
 
   LoggerConfig config;
-  ConfigError result = config.CheckConfig( loggerDataPath + std::string( "fileLog.json" ) );
+  ConfigError result = config.ParseConfig( loggerDataPath + std::string( "fileLog.json" ) );
   EXPECT_TRUE( result.IsOk() );
 
   LoggerInterface* logger = LoggerFabric::GetLogger( config );
@@ -77,7 +77,7 @@ TEST( logger, FileNullWrite ) {
 TEST( logger, InfoLevelWrite ) {
 
   LoggerConfig config;
-  ConfigError result = config.CheckConfig( loggerDataPath + std::string( "fileLog.json" ) );
+  ConfigError result = config.ParseConfig( loggerDataPath + std::string( "fileLog.json" ) );
   EXPECT_TRUE( result.IsOk() );
 
   LoggerInterface* logger = LoggerFabric::GetLogger( config );

@@ -1,8 +1,8 @@
 {
-  "simRunnerFilepath": "file.exe",
+  "simRunnerFilepath": "../../test/data/simulatorConfig/file.exe",
   "simulationSpeed": 0.95,
   "simulatorName": "mySim",
-  "loggerConfigFilepath": "logConf.json",
+  "loggerConfigFilepath": "../../test/data/simulatorConfig/logConf.json",
   "availableInterfaces": [
     {
       "connectsTo": {

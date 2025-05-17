@@ -14,7 +14,7 @@ TEST( buildConfig, creation ) {
 //---------------------------------------------------------------
 TEST( buildConfig, ConfigRead ) {
   BuildConfig conf;
-  ConfigError result = conf.CheckConfig( buildConfigDataPath + std::string( "build.json" ) );
+  ConfigError result = conf.ParseConfig( buildConfigDataPath + std::string( "build.json" ) );
   const std::string ExpectedBuildFilepath = buildConfigDataPath + std::string( "smh.file" );
   EXPECT_TRUE( result.IsOk() );
 
@@ -24,7 +24,7 @@ TEST( buildConfig, ConfigRead ) {
 //---------------------------------------------------------------
 TEST( buildConfig, badFileFormat ) {
   BuildConfig conf;
-  ConfigError result = conf.CheckConfig( buildConfigDataPath + std::string( "badFile.json" ) );
+  ConfigError result = conf.ParseConfig( buildConfigDataPath + std::string( "badFile.json" ) );
 
   EXPECT_EQ( result.GetValue(), ConfigErrorEnum::NO_BUILD_FILEPATH );
   EXPECT_STREQ( conf.GetBuildFilepath().c_str(), "" );
@@ -32,7 +32,7 @@ TEST( buildConfig, badFileFormat ) {
 //---------------------------------------------------------------
 TEST( buildConfig, badNames ) {
   BuildConfig conf;
-  ConfigError result = conf.CheckConfig( buildConfigDataPath + std::string( "badName.json" ) );
+  ConfigError result = conf.ParseConfig( buildConfigDataPath + std::string( "badName.json" ) );
 
   EXPECT_EQ( result.GetValue(), ConfigErrorEnum::NO_BUILD_FILEPATH );
   EXPECT_STREQ( conf.GetBuildFilepath().c_str(), "" );

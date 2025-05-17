@@ -36,13 +36,13 @@ BaseConfig::BaseConfig() :
 {
 }
 //---------------------------------------------------------------
-ConfigError BaseConfig::CheckConfig( std::string Path )
+ConfigError BaseConfig::ParseConfig( std::string Path )
 {
   configValidity = _CheckConfig( Path );
   return configValidity;
 }
 //---------------------------------------------------------------
-bool BaseConfig::IsValid() const
+bool BaseConfig::IsValidated() const
 {
   return configValidity.IsOk();
 }

@@ -8,14 +8,22 @@ static const std::string simConfigDataPath = std::string( TEST_DATA_DIR ) + std:
 //---------------------------------------------------------------
 TEST( simulatorConfig, GoodConfig ) {
   SimulatorConfig config;
-  ConfigError result = config.CheckConfig( simConfigDataPath + std::string( "goodSim.json" ) );
+  ConfigError result = config.ParseConfig( simConfigDataPath + std::string( "goodSim.json" ) );
 
   EXPECT_EQ( result, ConfigError{ ConfigErrorEnum::OK } );
 
-  EXPECT_STREQ( config.GetRunFilepath().c_str(), "file.exe" );
+  std::string ExpectedFilepath = simConfigDataPath + std::string( "file.exe" );
+  std::string abspath = GetAbsPath( config.GetRunFilepath() );
+
+  EXPECT_STREQ( abspath.c_str(), ExpectedFilepath.c_str() );
+
   EXPECT_EQ( config.GetSimulationSpeed(), 0.95 );
   EXPECT_EQ( config.GetSimulatorName(), "mySim" );
-  EXPECT_STREQ( config.GetLoggerConfigPath().c_str(), "logConf.json" );
+
+  ExpectedFilepath = simConfigDataPath + std::string( "logConf.json" );
+  abspath = GetAbsPath( config.GetLoggerConfigPath() );
+
+  EXPECT_STREQ( abspath.c_str(), ExpectedFilepath.c_str() );
 
   ConnectionIdentificator id;
   id.connectionName = "aboba";
@@ -37,11 +45,14 @@ TEST( simulatorConfig, GoodConfig ) {
 //---------------------------------------------------------------
 TEST( simulatorConfig, NotFullConfig ) {
   SimulatorConfig config;
-  ConfigError result = config.CheckConfig( simConfigDataPath + std::string( "notFullSim.json" ) );
+  ConfigError result = config.ParseConfig( simConfigDataPath + std::string( "notFullSim.json" ) );
 
   EXPECT_EQ( result, ConfigError{ ConfigErrorEnum::OK } );
 
-  EXPECT_STREQ( config.GetRunFilepath().c_str(), "file.exe" );
+  std::string ExpectedFilepath = simConfigDataPath + std::string( "file.exe" );
+  std::string abspath = GetAbsPath( config.GetRunFilepath() );
+
+  EXPECT_STREQ( ExpectedFilepath.c_str(), abspath.c_str() );
   EXPECT_EQ( config.GetSimulationSpeed(), 1.0 );
   EXPECT_EQ( config.GetSimulatorName(), "mySim" );
   EXPECT_STREQ( config.GetLoggerConfigPath().c_str(), "" );
@@ -53,14 +64,14 @@ TEST( simulatorConfig, NotFullConfig ) {
 //---------------------------------------------------------------
 TEST( simulatorConfig, NoInterfaces ) {
   SimulatorConfig config;
-  ConfigError result = config.CheckConfig( simConfigDataPath + std::string( "noInterfaces.json" ) );
+  ConfigError result = config.ParseConfig( simConfigDataPath + std::string( "noInterfaces.json" ) );
 
   EXPECT_EQ( result, ConfigError{ ConfigErrorEnum::NO_AVAILABLE_INTERFACES } );
 }
 //---------------------------------------------------------------
 TEST( simulatorConfig, BadInterfaces ) {
   SimulatorConfig config;
-  ConfigError result = config.CheckConfig( simConfigDataPath + std::string( "BadInterfaces.json" ) );
+  ConfigError result = config.ParseConfig( simConfigDataPath + std::string( "BadInterfaces.json" ) );
 
   EXPECT_EQ( result, ConfigError{ ConfigErrorEnum::NO_AVAILABLE_INTERFACES } );
 }

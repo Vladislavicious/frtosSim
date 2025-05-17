@@ -22,6 +22,7 @@ enum class ConfigErrorEnum {
   BUILD_FILE_NOT_EXIST,
   // simulator
   NO_RUN_FILEPATH,
+  RUN_FILE_NOT_EXIST,
   NO_SIM_NAME,
   NO_AVAILABLE_INTERFACES,
   // system
@@ -50,8 +51,8 @@ class BaseConfig
 {
 public:
   BaseConfig();
-  ConfigError CheckConfig( std::string Path );
-  bool IsValid() const;
+  ConfigError ParseConfig( std::string Path );
+  bool IsValidated() const;
 protected:
   virtual ConfigError ReadConfig( const json& Config ) = 0;
   std::string GetPath();

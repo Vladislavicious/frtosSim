@@ -1,5 +1,5 @@
 {
-  "simRunnerFilepath": "file.exe",
+  "simRunnerFilepath": "../../test/data/simulatorConfig/file.exe",
   "simulatorName": "mySim",
   "availableInterfaces": [
     {

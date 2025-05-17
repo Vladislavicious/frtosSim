@@ -105,6 +105,11 @@ ConfigError SimulatorConfig::ReadConfig( const json& Config )
 
   try {
     simRunnerFilepathStr = Config.at( "simRunnerFilepath" );
+    bool fileExist = DoFileExist( simRunnerFilepathStr );
+    if( !fileExist )
+    {
+      return ConfigError( ConfigErrorEnum::RUN_FILE_NOT_EXIST );
+    }
   }
   catch( nlohmann::json::out_of_range ) {
     return ConfigError( ConfigErrorEnum::NO_RUN_FILEPATH );
@@ -126,10 +131,16 @@ ConfigError SimulatorConfig::ReadConfig( const json& Config )
 
   try {
     loggerConfigFilepathStr = Config.at( "loggerConfigFilepath" );
+    bool loggerFileExist = DoFileExist( loggerConfigFilepathStr );
+    if( !loggerFileExist )
+    {
+      return ConfigError( ConfigErrorEnum::NO_LOG_FILEPATH );
+    }
   }
   catch( nlohmann::json::out_of_range ) {
     loggerConfigFilepathStr = "";
   }
+
 
   try {
     availableInterfaces = Config.at( "availableInterfaces" );

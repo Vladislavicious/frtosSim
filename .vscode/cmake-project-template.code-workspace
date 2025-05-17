@@ -79,7 +79,8 @@
 			"regex": "cpp",
 			"ranges": "cpp",
 			"shared_mutex": "cpp",
-			"valarray": "cpp"
+			"valarray": "cpp",
+			"future": "cpp"
 		}
 	}
 }

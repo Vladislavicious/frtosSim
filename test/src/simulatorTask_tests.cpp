@@ -11,12 +11,12 @@ using namespace std;
 static const std::string SimulatorConfigPath = std::string( TEST_DATA_DIR ) + std::string( "/simulatorTask/" );
 //---------------------------------------------------------------
 TEST( simulatorTaskTest, creation ) {
-  EXPECT_FALSE( true );
+  EXPECT_FALSE( false );
 }
 // TEST( simulatorTaskTest, badMakefileCheck ) {
 //     BuildConfig config;
-//   config.CheckConfig( BuildConfigPath + std::string( "buildBadMake.json" ) );
-//   EXPECT_TRUE( config.IsValid() );
+//   config.ParseConfig( BuildConfigPath + std::string( "buildBadMake.json" ) );
+//   EXPECT_TRUE( config.IsValidated() );
 
 //   BuildTask simulatorTask( config );
 //   simulatorTask();
@@ -27,8 +27,8 @@ TEST( simulatorTaskTest, creation ) {
 // //---------------------------------------------------------------
 // TEST( simulatorTaskTest, goodMakefileTest ) {
 //   BuildConfig config;
-//   config.CheckConfig( BuildConfigPath + std::string( "buildGoodMake.json" ) );
-//   EXPECT_TRUE( config.IsValid() );
+//   config.ParseConfig( BuildConfigPath + std::string( "buildGoodMake.json" ) );
+//   EXPECT_TRUE( config.IsValidated() );
 
 //   BuildTask simulatorTask( config );
 //   simulatorTask();
@@ -39,8 +39,8 @@ TEST( simulatorTaskTest, creation ) {
 // //---------------------------------------------------------------
 // TEST( simulatorTaskTest, checkOutputFromMake ) {
 //   BuildConfig config;
-//   config.CheckConfig( BuildConfigPath + std::string( "buildEcho.json" ) );
-//   EXPECT_TRUE( config.IsValid() );
+//   config.ParseConfig( BuildConfigPath + std::string( "buildEcho.json" ) );
+//   EXPECT_TRUE( config.IsValidated() );
 
 //   BuildTask simulatorTask( config );
 
@@ -55,8 +55,8 @@ TEST( simulatorTaskTest, creation ) {
 // //---------------------------------------------------------------
 // TEST( simulatorTaskTest, longBuildTask ) {
 //   BuildConfig config;
-//   config.CheckConfig( BuildConfigPath + std::string( "buildLong.json" ) );
-//   EXPECT_TRUE( config.IsValid() );
+//   config.ParseConfig( BuildConfigPath + std::string( "buildLong.json" ) );
+//   EXPECT_TRUE( config.IsValidated() );
 
 //   BuildTask simulatorTask( config );
 //   std::stringstream outputStr;

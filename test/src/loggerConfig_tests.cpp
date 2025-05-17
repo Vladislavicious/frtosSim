@@ -15,7 +15,7 @@ TEST( loggerConfig, creation ) {
 //---------------------------------------------------------------
 TEST( loggerConfig, consoleConfigRead ) {
   LoggerConfig conf;
-  ConfigError result = conf.CheckConfig( loggerConfigDataPath + std::string( "consoleLog.json" ) );
+  ConfigError result = conf.ParseConfig( loggerConfigDataPath + std::string( "consoleLog.json" ) );
 
   EXPECT_TRUE( result.IsOk() );
   EXPECT_EQ( conf.GetLogType(), LogInterfaceEnum::CONSOLE );
@@ -24,7 +24,7 @@ TEST( loggerConfig, consoleConfigRead ) {
 //---------------------------------------------------------------
 TEST( loggerConfig, fileConfigRead ) {
   LoggerConfig conf;
-  ConfigError result = conf.CheckConfig( loggerConfigDataPath + std::string( "fileLog.json" ) );
+  ConfigError result = conf.ParseConfig( loggerConfigDataPath + std::string( "fileLog.json" ) );
 
   EXPECT_TRUE( result.IsOk() );
   EXPECT_EQ( conf.GetLogType(), LogInterfaceEnum::FILE );
@@ -33,7 +33,7 @@ TEST( loggerConfig, fileConfigRead ) {
 //---------------------------------------------------------------
 TEST( loggerConfig, fileTypeNoFilePassed ) {
   LoggerConfig conf;
-  ConfigError result = conf.CheckConfig( loggerConfigDataPath + std::string( "badFileLog.json" ) );
+  ConfigError result = conf.ParseConfig( loggerConfigDataPath + std::string( "badFileLog.json" ) );
 
   EXPECT_EQ( result.GetValue(), ConfigErrorEnum::NO_LOG_FILEPATH );
   EXPECT_EQ( conf.GetLogType(), LogInterfaceEnum::NONE );
@@ -42,7 +42,7 @@ TEST( loggerConfig, fileTypeNoFilePassed ) {
 //---------------------------------------------------------------
 TEST( loggerConfig, badFileFormat ) {
   LoggerConfig conf;
-  ConfigError result = conf.CheckConfig( loggerConfigDataPath + std::string( "badLogFile.json" ) );
+  ConfigError result = conf.ParseConfig( loggerConfigDataPath + std::string( "badLogFile.json" ) );
 
   EXPECT_EQ( result.GetValue(), ConfigErrorEnum::NO_LOG_TYPE );
   EXPECT_EQ( conf.GetLogType(), LogInterfaceEnum::NONE );
