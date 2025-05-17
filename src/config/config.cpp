@@ -22,6 +22,10 @@ std::string ConfigError::GetErrorMessage() const
   return std::string( "UNEMPLEMENTED" );
 }
 //---------------------------------------------------------------
+bool operator==( const ConfigError& first, const ConfigError& second )
+{
+  return first.GetValue() == second.GetValue();
+}
 //---------------------------------------------------------------
 //       BaseConfig class implementation:
 //---------------------------------------------------------------

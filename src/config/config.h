@@ -20,6 +20,10 @@ enum class ConfigErrorEnum {
   // builder
   NO_BUILD_FILEPATH,
   BUILD_FILE_NOT_EXIST,
+  // simulator
+  NO_RUN_FILEPATH,
+  NO_SIM_NAME,
+  NO_AVAILABLE_INTERFACES,
   // base
   HAVENT_CHECKED,
 };
@@ -35,6 +39,8 @@ public:
 private:
   ConfigErrorEnum errorValue;
 };
+//---------------------------------------------------------------
+bool operator==( const ConfigError&, const ConfigError& );
 //---------------------------------------------------------------
 //       BaseConfig class definition:
 //---------------------------------------------------------------

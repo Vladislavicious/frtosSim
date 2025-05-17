@@ -1,0 +1,24 @@
+{
+  "simRunnerFilepath": "file.exe",
+  "simulationSpeed": 0.95,
+  "simulatorName": "mySim",
+  "loggerConfigFilepath": "logConf.json",
+  "availableInterfaces": [
+    {
+      "connectsTo": {
+        "connectionName": "",
+        "connectionType": "none",
+        "hostSimulatorName": ""
+      },
+      "id": {
+        "connectionName": "aboba",
+        "connectionType": "i2c",
+        "hostSimulatorName": "host"
+      },
+      "rxCapacity": 5,
+      "rxMinPacketSize": 3,
+      "txCapacity": 5,
+      "txMinPacketSize": 3
+    }
+  ]
+}

@@ -62,10 +62,16 @@ class SimulatorConfig : public BaseConfig
 {
 public:
   SimulatorConfig();
+  std::string GetRunFilepath();
+  double GetSimulationSpeed();
+  std::string GetSimulatorName();
+  std::string GetLoggerConfigPath();
+  const std::vector<ConnectionDescriptor>& GetAvailableInterfaces();
 private:
   ConfigError ReadConfig( const json& Config ) override;
 
-  double simulationSpeed{ 1.0f };
+  double simulationSpeed{ 1.0 };
+  std::string simRunnerFilepath{ "" };
   std::string simulatorName{ "" };
   std::vector<ConnectionDescriptor> availableInterfaces;
   std::string loggerConfigFilepath{ "" };

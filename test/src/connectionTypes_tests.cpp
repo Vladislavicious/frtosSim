@@ -74,6 +74,16 @@ TEST( connectionTypes, readConIdentificators )
   compar( "spi", id.connectionName, id.hostSimulatorName, id );
 }
 
+TEST( connectionTypes, readNotFullValue )
+{
+  std::stringstream jsonString;
+  jsonString << R"({"connectionType": )" << '"' << "i2c" << "\"," << std::endl;
+  jsonString << R"("connectionName": )" << '"' << "name" << "\"\n}";
+
+  json j = json::parse( jsonString.str() );
+  EXPECT_THROW( j.template get<ConnectionIdentificator>(), nlohmann::json::out_of_range );
+}
+
 void compar( ConnectionDescriptor expectedDescr )
 {
   json j1 = expectedDescr.id;

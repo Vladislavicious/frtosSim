@@ -24,6 +24,7 @@ set(SOURCE_FILES
     src/conceptTask_tests.cpp
     src/buildTask_tests.cpp
     src/connectionTypes_tests.cpp
+    src/simulatorConfig_tests.cpp
     )
 
 add_compile_definitions(TEST_DATA_DIR="${PROJECT_SOURCE_DIR}/data")

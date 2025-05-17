@@ -71,26 +71,77 @@ SimulatorConfig::SimulatorConfig()
 {
 }
 //---------------------------------------------------------------
+std::string SimulatorConfig::GetRunFilepath()
+{
+  return simRunnerFilepath;
+}
+//---------------------------------------------------------------
+double SimulatorConfig::GetSimulationSpeed()
+{
+  return simulationSpeed;
+}
+//---------------------------------------------------------------
+std::string SimulatorConfig::GetSimulatorName()
+{
+  return simulatorName;
+}
+//---------------------------------------------------------------
+std::string SimulatorConfig::GetLoggerConfigPath()
+{
+  return loggerConfigFilepath;
+}
+//---------------------------------------------------------------
+const std::vector<ConnectionDescriptor>& SimulatorConfig::GetAvailableInterfaces()
+{
+  return availableInterfaces;
+}
+//---------------------------------------------------------------
 ConfigError SimulatorConfig::ReadConfig( const json& Config )
 {
-  // std::string buildFilepathStr{ "" };
+  std::string simRunnerFilepathStr{ "" };
+  std::string simulatorNameStr{ "" };
+  double simulationSpeedRead = 0.0;
+  std::string loggerConfigFilepathStr{ "" };
 
-  // try {
-  //   buildFilepathStr = Config.at( "buildFilepath" );
-  // }
-  // catch( nlohmann::json::out_of_range ) {
-  //   return ConfigError( ConfigErrorEnum::NO_BUILD_FILEPATH );
-  // }
+  try {
+    simRunnerFilepathStr = Config.at( "simRunnerFilepath" );
+  }
+  catch( nlohmann::json::out_of_range ) {
+    return ConfigError( ConfigErrorEnum::NO_RUN_FILEPATH );
+  }
 
-  // bool buildFileExist = DoFileExist( buildFilepathStr );
-  // if( buildFileExist )
-  // {
-  //   buildFilepath = buildFilepathStr;
-  // }
-  // else
-  // {
-  //   return ConfigError( ConfigErrorEnum::BUILD_FILE_NOT_EXIST );
-  // }
+  try {
+    simulationSpeedRead = Config.at( "simulationSpeed" );
+  }
+  catch( nlohmann::json::out_of_range ) {
+    simulationSpeedRead = 1.0;
+  }
+
+  try {
+    simulatorNameStr = Config.at( "simulatorName" );
+  }
+  catch( nlohmann::json::out_of_range ) {
+    return ConfigError( ConfigErrorEnum::NO_SIM_NAME );
+  }
+
+  try {
+    loggerConfigFilepathStr = Config.at( "loggerConfigFilepath" );
+  }
+  catch( nlohmann::json::out_of_range ) {
+    loggerConfigFilepathStr = "";
+  }
+
+  try {
+    availableInterfaces = Config.at( "availableInterfaces" );
+  }
+  catch( nlohmann::json::out_of_range ) {
+    return ConfigError( ConfigErrorEnum::NO_AVAILABLE_INTERFACES );
+  }
+
+  simRunnerFilepath = simRunnerFilepathStr;
+  simulationSpeed = simulationSpeedRead;
+  simulatorName = simulatorNameStr;
+  loggerConfigFilepath = loggerConfigFilepathStr;
 
   return ConfigError( ConfigErrorEnum::OK );
 }
