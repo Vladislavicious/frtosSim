@@ -8,6 +8,8 @@ set(SOURCE_FILES
     taskInterface.cpp
     myPipe.h
     myPipe.cpp
+    simulatorTask.h
+    simulatorTask.cpp
 )
 
 add_library(task SHARED STATIC ${SOURCE_FILES})
@@ -17,4 +19,5 @@ install(FILES
     taskInterface.h
     buildTask.h 
     myPipe.h
+    simulatorTask.h
     DESTINATION ${DIVISIBLE_INSTALL_INCLUDE_DIR})

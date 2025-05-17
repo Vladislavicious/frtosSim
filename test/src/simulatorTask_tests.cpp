@@ -10,24 +10,28 @@ using namespace std;
 
 static const std::string SimTaskConfigPath = std::string( TEST_DATA_DIR ) + std::string( "/simulatorTask/" );
 //---------------------------------------------------------------
-TEST( simulatorTaskTest, creation ) {
+TEST( simulatorTaskTest, goodHalfSecondCreation ) {
   EXPECT_FALSE( false );
+  SimulatorConfig config;
+  config.ParseConfig( SimTaskConfigPath + std::string( "goodSimTask.json" ) );
+  EXPECT_TRUE( config.IsValidated() );
+
+  SimulatorTask simTask( config );
+
+  TimeSV curTime = TimeSV::Now();
+
+  simTask();
+  TimeSV secondTime = TimeSV::Now();
+  TimeSV executionTime = secondTime - curTime;
+  EXPECT_TRUE( executionTime >= TimeSV::FromMillis( 500 ) );
+
+  ErrorCode result = simTask.GetResult();
+  EXPECT_EQ( result.GetValue(), ErrorCodeEnum::ERR_OK );
 }
-// TEST( simulatorTaskTest, badMakefileCheck ) {
-//     BuildConfig config;
-//   config.ParseConfig( BuildConfigPath + std::string( "buildBadMake.json" ) );
-//   EXPECT_TRUE( config.IsValidated() );
-
-//   BuildTask simulatorTask( config );
-//   simulatorTask();
-
-//   ErrorCode result = simulatorTask.GetResult();
-//   EXPECT_EQ( result.GetValue(), ErrorCodeEnum::ERR_MAKE_BUILD );
-// }
 // //---------------------------------------------------------------
 // TEST( simulatorTaskTest, goodMakefileTest ) {
-//   BuildConfig config;
-//   config.ParseConfig( BuildConfigPath + std::string( "buildGoodMake.json" ) );
+//   SimulatorConfig config;
+//   config.ParseConfig( SimTaskConfigPath + std::string( "buildGoodMake.json" ) );
 //   EXPECT_TRUE( config.IsValidated() );
 
 //   BuildTask simulatorTask( config );
@@ -38,8 +42,8 @@ TEST( simulatorTaskTest, creation ) {
 // }
 // //---------------------------------------------------------------
 // TEST( simulatorTaskTest, checkOutputFromMake ) {
-//   BuildConfig config;
-//   config.ParseConfig( BuildConfigPath + std::string( "buildEcho.json" ) );
+//   SimulatorConfig config;
+//   config.ParseConfig( SimTaskConfigPath + std::string( "buildEcho.json" ) );
 //   EXPECT_TRUE( config.IsValidated() );
 
 //   BuildTask simulatorTask( config );
@@ -54,8 +58,8 @@ TEST( simulatorTaskTest, creation ) {
 // }
 // //---------------------------------------------------------------
 // TEST( simulatorTaskTest, longBuildTask ) {
-//   BuildConfig config;
-//   config.ParseConfig( BuildConfigPath + std::string( "buildLong.json" ) );
+//   SimulatorConfig config;
+//   config.ParseConfig( SimTaskConfigPath + std::string( "buildLong.json" ) );
 //   EXPECT_TRUE( config.IsValidated() );
 
 //   BuildTask simulatorTask( config );

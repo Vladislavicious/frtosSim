@@ -34,6 +34,13 @@ TimeSV TimeSV::Now()
 
 //---------------------------------------------------------------
 
+TimeSV TimeSV::FromMillis( TimeType millisCount )
+{
+  return TimeSV( millisCount * 1000 );
+}
+
+//---------------------------------------------------------------
+
 std::string TimeSV::GetTimeStr() const
 {
   using namespace std::chrono;
@@ -98,5 +105,14 @@ bool operator<( const TimeSV& first, const TimeSV& second )
 bool operator>( const TimeSV& first, const TimeSV& second )
 {
   return first.GetMs() > second.GetMs();
+}
+//---------------------------------------------------------------
+bool operator>=( const TimeSV& first, const TimeSV& second )
+{
+  return ( first > second ) || ( first == second );
+}
+bool operator<=( const TimeSV& first, const TimeSV& second )
+{
+  return ( first < second ) || ( first == second );
 }
 //---------------------------------------------------------------

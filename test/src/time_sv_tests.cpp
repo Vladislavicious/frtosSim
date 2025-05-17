@@ -83,3 +83,25 @@ TEST( TimeSVtest, TimeSvNotEqual ) {
   EXPECT_TRUE( tim1 != tim2 );
 }
 //---------------------------------------------------------------
+TEST( TimeSVtest, TimeBiggerEqual ) {
+  constexpr uint64_t mayTime = 1746467926 * 1000ULL * 1000ULL;
+  TimeSV tim1{ mayTime };
+  TimeSV tim2{ mayTime - 1000ULL };
+
+  EXPECT_TRUE( tim1 >= tim2 );
+  TimeSV tim3{ tim1 };
+
+  EXPECT_TRUE( tim1 >= tim3 );
+}
+//---------------------------------------------------------------
+TEST( TimeSVtest, TimeLessEqual ) {
+  constexpr uint64_t mayTime = 1746467926 * 1000ULL * 1000ULL;
+  TimeSV tim1{ mayTime };
+  TimeSV tim2{ mayTime - 1000ULL };
+
+  EXPECT_TRUE( tim2 <= tim1 );
+  TimeSV tim3{ tim2 };
+
+  EXPECT_TRUE( tim2 <= tim3 );
+}
+//---------------------------------------------------------------
