@@ -1,0 +1,23 @@
+{
+  "simRunnerFilepath": "../../bin/output",
+  "simulationSpeed": 1.0,
+  "simulatorName": "mySim",
+  "availableInterfaces": [
+    {
+      "connectsTo": {
+        "connectionName": "",
+        "connectionType": "none",
+        "hostSimulatorName": ""
+      },
+      "id": {
+        "connectionName": "aboba",
+        "connectionType": "i2c",
+        "hostSimulatorName": "host"
+      },
+      "rxCapacity": 5,
+      "rxMinPacketSize": 3,
+      "txCapacity": 5,
+      "txMinPacketSize": 3
+    }
+  ]
+}

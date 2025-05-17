@@ -25,40 +25,40 @@ void SimulatorTask::SetSpeed( double val )
 //---------------------------------------------------------------
 ErrorCode SimulatorTask::TaskOperation()
 {
-  // const std::string MakeCommand = "make -f ";
-  // const std::string path = config.GetBuildFilepath();
-  // const std::string fullCommand = MakeCommand + path;
-  // MyPipe pip( fullCommand, "r" );
+  // at this point, executable is checked 
 
-  // if( !pip.Open() ) {
-  //   if( stream ) {
-  //     *stream << "Error invoking make";
-  //   }
-  //   return ErrorCode{ ErrorCodeEnum::ERR_MAKE_INVOKATION };
-  // }
+  const std::string path = config.GetRunFilepath();
 
-  // char buffer[128];
-  // std::stringstream result;
+  MyPipe pip( path, "r" );
 
+  if( !pip.Open() ) {
+    if( stream ) {
+      *stream << "Error calling simulator";
+    }
+    return ErrorCode{ ErrorCodeEnum::ERR_SIMULATION_CALL };
+  }
 
-  // while( pip.Read( buffer, sizeof( buffer ) ) ) {
-  //   result << buffer;
-  // }
+  char buffer[128];
+  std::stringstream result;
 
-  // int status = pip.Close();
+  while( pip.Read( buffer, sizeof( buffer ) ) ) {
+    result << buffer;
+  }
 
-  // if( status != 0 ) {
-  //   if( stream ) {
-  //     *stream << "build error: " << status << std::endl;
-  //     *stream << result.str();
-  //   }
+  int status = pip.Close();
 
-  //   return ErrorCode{ ErrorCodeEnum::ERR_MAKE_BUILD };
-  // }
+  if( status != 0 ) {
+    if( stream ) {
+      *stream << "execution error: " << status << std::endl;
+      *stream << result.str();
+    }
 
-  // if( stream ) {
-  //   *stream << result.str();
-  // }
+    return ErrorCode{ ErrorCodeEnum::ERR_MAKE_BUILD };
+  }
+
+  if( stream ) {
+    *stream << result.str();
+  }
 
   return ErrorCode{ ErrorCodeEnum::ERR_OK };
 }

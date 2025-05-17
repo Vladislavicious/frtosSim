@@ -11,7 +11,6 @@ using namespace std;
 static const std::string SimTaskConfigPath = std::string( TEST_DATA_DIR ) + std::string( "/simulatorTask/" );
 //---------------------------------------------------------------
 TEST( simulatorTaskTest, goodHalfSecondCreation ) {
-  EXPECT_FALSE( false );
   SimulatorConfig config;
   config.ParseConfig( SimTaskConfigPath + std::string( "goodSimTask.json" ) );
   EXPECT_TRUE( config.IsValidated() );
@@ -28,49 +27,23 @@ TEST( simulatorTaskTest, goodHalfSecondCreation ) {
   ErrorCode result = simTask.GetResult();
   EXPECT_EQ( result.GetValue(), ErrorCodeEnum::ERR_OK );
 }
-// //---------------------------------------------------------------
-// TEST( simulatorTaskTest, goodMakefileTest ) {
-//   SimulatorConfig config;
-//   config.ParseConfig( SimTaskConfigPath + std::string( "buildGoodMake.json" ) );
-//   EXPECT_TRUE( config.IsValidated() );
+//---------------------------------------------------------------
+TEST( simulatorTaskTest, goodOutput ) {
+  SimulatorConfig config;
+  config.ParseConfig( SimTaskConfigPath + std::string( "goodOutputTask.json" ) );
+  EXPECT_TRUE( config.IsValidated() );
 
-//   BuildTask simulatorTask( config );
-//   simulatorTask();
+  const std::string expectedStr = "1234567890";
+  SimulatorTask simTask( config );
 
-//   ErrorCode result = simulatorTask.GetResult();
-//   EXPECT_EQ( result.GetValue(), ErrorCodeEnum::ERR_OK );
-// }
-// //---------------------------------------------------------------
-// TEST( simulatorTaskTest, checkOutputFromMake ) {
-//   SimulatorConfig config;
-//   config.ParseConfig( SimTaskConfigPath + std::string( "buildEcho.json" ) );
-//   EXPECT_TRUE( config.IsValidated() );
+  std::stringstream outputStr;
+  simTask.SetOutputStream( &outputStr );
 
-//   BuildTask simulatorTask( config );
+  simTask();
 
-//   std::stringstream outputStr;
-//   simulatorTask.SetOutputStream( &outputStr );
-//   simulatorTask();
+  ErrorCode result = simTask.GetResult();
+  EXPECT_EQ( result.GetValue(), ErrorCodeEnum::ERR_OK );
 
-//   ErrorCode result = simulatorTask.GetResult();
-//   EXPECT_EQ( result.GetValue(), ErrorCodeEnum::ERR_OK );
-//   EXPECT_STREQ( "echoing!\n", outputStr.str().c_str() );
-// }
-// //---------------------------------------------------------------
-// TEST( simulatorTaskTest, longBuildTask ) {
-//   SimulatorConfig config;
-//   config.ParseConfig( SimTaskConfigPath + std::string( "buildLong.json" ) );
-//   EXPECT_TRUE( config.IsValidated() );
-
-//   BuildTask simulatorTask( config );
-//   std::stringstream outputStr;
-//   simulatorTask.SetOutputStream( &outputStr );
-//   simulatorTask();
-
-//   ErrorCode result = simulatorTask.GetResult();
-//   EXPECT_EQ( result.GetValue(), ErrorCodeEnum::ERR_OK );
-
-//   TimeSV timeElapsed = simulatorTask.GetEndTime() - simulatorTask.GetInitialTime();
-//   EXPECT_TRUE( timeElapsed > TimeSV( 300000 ) );
-// }
-// //---------------------------------------------------------------
+  EXPECT_STREQ( outputStr.str().c_str(), expectedStr.c_str() );
+}
+//---------------------------------------------------------------

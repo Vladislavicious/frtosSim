@@ -3,3 +3,4 @@ project(executableExamples)
 
 add_subdirectory(infinite)
 add_subdirectory(halfSecond)
+add_subdirectory(output)
