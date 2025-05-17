@@ -1,0 +1,19 @@
+{
+  "mkConfigs": [
+    {
+      "buildConfigPath": "1234",
+      "loggerConfigPath": "asdlfk",
+      "simulatorConfigPath": "asdjfkjasd"
+    },
+    {
+      "buildConfigPath": "1234",
+      "loggerConfigPath": "asdlfk",
+      "simulatorConfigPath": "asdjfkjasd"
+    },
+    {
+      "buildConfigPath": "1234",
+      "loggerConfigPath": "asdlfk",
+      "simulatorConfigPath": "asdjfkjasd"
+    }
+  ]
+}
