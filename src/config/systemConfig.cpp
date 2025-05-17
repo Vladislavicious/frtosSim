@@ -45,50 +45,23 @@ const std::vector<MkConfigStruct>& SystemConfig::GetMkConfigs()
 //---------------------------------------------------------------
 ConfigError SystemConfig::ReadConfig( const json& Config )
 {
-  // std::string simRunnerFilepathStr{ "" };
-  // std::string simulatorNameStr{ "" };
-  // double simulationSpeedRead = 0.0;
-  // std::string loggerConfigFilepathStr{ "" };
+  std::string systemLogConfigPathStr{ "" };
 
-  // try {
-  //   simRunnerFilepathStr = Config.at( "simRunnerFilepath" );
-  // }
-  // catch( nlohmann::json::out_of_range ) {
-  //   return ConfigError( ConfigErrorEnum::NO_RUN_FILEPATH );
-  // }
+  try {
+    systemLogConfigPathStr = Config.at( "systemLogConfigPath" );
+  }
+  catch( nlohmann::json::out_of_range ) {
+    systemLogConfigPathStr = "";
+  }
 
-  // try {
-  //   simulationSpeedRead = Config.at( "simulationSpeed" );
-  // }
-  // catch( nlohmann::json::out_of_range ) {
-  //   simulationSpeedRead = 1.0;
-  // }
+  try {
+    mkConfigs = Config.at( "mkConfigs" );
+  }
+  catch( nlohmann::json::out_of_range ) {
+    return ConfigError( ConfigErrorEnum::NO_CONFIGS );
+  }
 
-  // try {
-  //   simulatorNameStr = Config.at( "simulatorName" );
-  // }
-  // catch( nlohmann::json::out_of_range ) {
-  //   return ConfigError( ConfigErrorEnum::NO_SIM_NAME );
-  // }
-
-  // try {
-  //   loggerConfigFilepathStr = Config.at( "loggerConfigFilepath" );
-  // }
-  // catch( nlohmann::json::out_of_range ) {
-  //   loggerConfigFilepathStr = "";
-  // }
-
-  // try {
-  //   availableInterfaces = Config.at( "availableInterfaces" );
-  // }
-  // catch( nlohmann::json::out_of_range ) {
-  //   return ConfigError( ConfigErrorEnum::NO_AVAILABLE_INTERFACES );
-  // }
-
-  // simRunnerFilepath = simRunnerFilepathStr;
-  // simulationSpeed = simulationSpeedRead;
-  // simulatorName = simulatorNameStr;
-  // loggerConfigFilepath = loggerConfigFilepathStr;
+  systemLogConfigPath = systemLogConfigPathStr;
 
   return ConfigError( ConfigErrorEnum::OK );
 }

@@ -1,0 +1,10 @@
+{
+  "systemLogConfigPath": "log.json",
+  "mkConfigs": [
+    {
+      "buildConfigPath": "1234",
+      "loggerConfigPath": "asdlfk",
+      "simulatorConfigPath": "asdjfkjasd"
+    }
+  ]
+}

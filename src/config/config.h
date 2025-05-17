@@ -24,6 +24,8 @@ enum class ConfigErrorEnum {
   NO_RUN_FILEPATH,
   NO_SIM_NAME,
   NO_AVAILABLE_INTERFACES,
+  // system
+  NO_CONFIGS,
   // base
   HAVENT_CHECKED,
 };
