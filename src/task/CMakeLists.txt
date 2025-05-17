@@ -7,6 +7,7 @@ set(SOURCE_FILES
     taskInterface.h
     taskInterface.cpp
     myPipe.h
+    myPipe.cpp
 )
 
 add_library(task SHARED STATIC ${SOURCE_FILES})

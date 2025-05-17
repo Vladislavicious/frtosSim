@@ -9,25 +9,9 @@
 class MyPipe
 {
 public:
-  MyPipe( std::string Command, std::string Mode )
-    : command{ Command }, mode{ Mode }
-  {
-  }
-  bool Open() {
-    pipe = popen( command.c_str(), mode.c_str() );
-    if( !pipe )
-      return false;
-    return true;
-  }
-  int Close() {
-    if( pipe )
-    {
-      int retVal = pclose( pipe );
-      pipe = nullptr;
-      return retVal;
-    }
-    return 0;
-  }
+  MyPipe( std::string Command, std::string Mode );
+  bool Open();
+  int Close();
   ~MyPipe() {
     Close();
   }
