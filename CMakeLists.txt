@@ -15,5 +15,4 @@ include_directories(${DIVISIBLE_INSTALL_INCLUDE_DIR})
 
 add_subdirectory(src)
 add_subdirectory(test)
-add_subdirectory(executableExamples)
-
+add_subdirectory(testExecutables)
