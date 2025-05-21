@@ -1,0 +1,4 @@
+{
+  "logType": "file",
+  "logFilepath": "./testingNorm.log"
+}

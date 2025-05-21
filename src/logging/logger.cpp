@@ -8,9 +8,30 @@ class ConsoleLogger : public LoggerInterface
 {
 public:
   ~ConsoleLogger() override {};
+
   void Output( const std::string& data ) override {
+    SetOutputColor( GetLogLevel() );
     std::cout << data;
   };
+private:
+  void SetOutputColor( LogLevel level )
+  {
+    int textColor = 31;
+    switch( level ) {
+    case LogLevel::INFO:
+      textColor = 32;
+      break;
+    case LogLevel::WARNING:
+      textColor = 33;
+      break;
+    case LogLevel::ERROR:
+      textColor = 31;
+      break;
+    default:
+      textColor = 30;
+    }
+    std::cout << "\033[" << textColor << "m";
+  }
 };
 //---------------------------------------------------------------
 class FileLogger : public LoggerInterface
