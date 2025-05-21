@@ -29,9 +29,12 @@ set(SOURCE_FILES
     src/simulatorTask_tests.cpp
     )
 
-add_compile_definitions(TEST_DATA_DIR="${PROJECT_SOURCE_DIR}/data")
+add_compile_definitions(
+    TEST_DATA_DIR="${PROJECT_SOURCE_DIR}/data")
 
 add_executable(my_tests ${SOURCE_FILES})
-target_link_libraries(my_tests common config logging task gtest gmock nlohmann_json::nlohmann_json)
+target_link_libraries(my_tests 
+    common config logging 
+    task gtest gmock nlohmann_json::nlohmann_json)
 install(TARGETS my_tests DESTINATION bin)
 
