@@ -16,12 +16,12 @@ public:
   ~MyPipe() {
     Close();
   }
-  FILE* GetPipe() { return pipe; };
-  bool Read( char* buf, int maxSize ) {
-    return fgets( buf, maxSize, pipe ) != nullptr;
-  };
+
+  bool Read( char* buf, int maxSize );
 private:
-  FILE* pipe{ nullptr };
+  int pid{ -1 };
+  int childPOutput{ -1 };
+  int childPInput{ -1 };
   std::string command{ "" };
   std::string mode{ "" };
 };
