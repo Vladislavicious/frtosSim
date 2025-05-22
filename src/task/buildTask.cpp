@@ -28,9 +28,9 @@ ErrorCode BuildTask::TaskOperation()
   std::stringstream result;
 
 
-  while( pip.Read( buffer, sizeof( buffer ) ) ) {
-    result << buffer;
-  }
+  // while( pip.Read( buffer, sizeof( buffer ) ) ) {
+  //   result << buffer;
+  // }
 
   int status = pip.Close();
 

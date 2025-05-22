@@ -42,9 +42,9 @@ ErrorCode SimulatorTask::TaskOperation()
   std::stringstream result;
 
   // TODO: because of this infinite loop, it's hard to reach to pip
-  while( pip.Read( buffer, sizeof( buffer ) ) ) {
-    result << buffer;
-  }
+  // while( pip.Read( buffer, sizeof( buffer ) ) ) {
+  //   result << buffer;
+  // }
 
   int status = pip.Close();
 

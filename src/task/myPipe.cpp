@@ -23,9 +23,12 @@ pid_t popen2( char** command, int* infp, int* outfp )
   else if( pid == 0 )
   {
     close( p_stdin[WRITE] );
-    dup2( p_stdin[READ], READ );
+    dup2( p_stdin[READ], STDIN_FILENO );
     close( p_stdout[READ] );
-    dup2( p_stdout[WRITE], WRITE );
+    dup2( p_stdout[WRITE], STDOUT_FILENO );
+    dup2( p_stdout[WRITE], STDERR_FILENO );  // stderr → stdout
+    close( p_stdin[READ] );
+    close( p_stdout[WRITE] );
 
     execvp( *command, command );
     perror( "execvp" );
@@ -80,35 +83,65 @@ MyPipe::MyPipe( std::string Command, std::string Mode )
 {
 }
 
+void freeArgv( char** argv, int argc ) {
+  if( argv ) {
+    for( int i = 0; i < argc; ++i ) {
+      delete[] argv[i];
+    }
+    delete[] argv;
+  }
+}
+
 bool MyPipe::Open()
 {
   int wordsCount = 0;
   char** tokens = stringToArgv( command, wordsCount );
 
   pid = popen2( tokens, NULL, &childPInput );
-  delete[] tokens;
+  freeArgv( tokens, wordsCount );
 
   return pid > 0;
 }
 
 int MyPipe::Close()
 {
+  int status = -1;
 
   if( childPInput != -1 ) {
-    return close( childPInput );
+    close( childPInput );
     childPInput = -1;
   }
-  int status{ -1 };
-  waitpid( pid, &status, 0 );
+
+  if( pid > 0 ) {
+    waitpid( pid, &status, 0 );
+  }
+
   return status;
 }
 
 bool MyPipe::Read( char* buf, int maxSize ) {
-  if( childPInput != -1 )
-  {
-    volatile int readResult = read( childPInput, buf, maxSize );
-    // volatile int readResult1 = read( childPInput, buf, maxSize );
-    return readResult > 0;
+  if( childPInput == -1 ) {
+    return false;
   }
-  return false;
+
+  ssize_t bytesRead = read( childPInput, buf, sizeof( buf ) - 1 );  // оставляем место для \0
+  if( bytesRead > 0 ) {
+    buf[bytesRead] = '\0';  // явный нуль-терминатор
+  }
+
+  if( bytesRead > 0 ) {
+    return true;
+  }
+  else if( bytesRead == 0 ) {
+    // EOF - дочерний процесс закрыл свой конец канала
+    close( childPInput );
+    childPInput = -1;
+    return false;
+  }
+  else {
+    // Ошибка чтения
+    close( childPInput );
+    childPInput = -1;
+    return false;
+  }
 }
