@@ -14,36 +14,45 @@ pid_t popen2( char** command, int* infp, int* outfp )
   pid_t pid;
 
   if( pipe( p_stdin ) != 0 || pipe( p_stdout ) != 0 )
+  {
     return -1;
+  }
 
   pid = fork();
 
-  if( pid < 0 )
+  if( pid < 0 ) {
     return pid;
-  else if( pid == 0 )
-  {
-    close( p_stdin[WRITE] );
+  }
+  else if( pid == 0 ) {  // Дочерний процесс
+    close( p_stdin[WRITE] );   // Закрываем ненужный конец канала
     dup2( p_stdin[READ], STDIN_FILENO );
-    close( p_stdout[READ] );
+    close( p_stdout[READ] );   // Закрываем ненужный конец канала
     dup2( p_stdout[WRITE], STDOUT_FILENO );
-    dup2( p_stdout[WRITE], STDERR_FILENO );  // stderr → stdout
-    close( p_stdin[READ] );
-    close( p_stdout[WRITE] );
+    dup2( p_stdout[WRITE], STDERR_FILENO );  // Перенаправляем stderr → stdout
+    close( p_stdin[READ] );    // Закрываем оригинальные дескрипторы
+    close( p_stdout[WRITE] );  // Закрываем оригинальные дескрипторы
 
-    execvp( *command, command );
+    execvp( command[0], command );
     perror( "execvp" );
     exit( 1 );
   }
 
-  if( infp == NULL )
+  // Родительский процесс
+  close( p_stdin[READ] );     // Закрываем ненужный конец канала
+  if( infp == NULL ) {
     close( p_stdin[WRITE] );
-  else
+  }
+  else {
     *infp = p_stdin[WRITE];
+  }
 
-  if( outfp == NULL )
+  close( p_stdout[WRITE] );   // Закрываем ненужный конец канала
+  if( outfp == NULL ) {
     close( p_stdout[READ] );
-  else
+  }
+  else {
     *outfp = p_stdout[READ];
+  }
 
   return pid;
 }

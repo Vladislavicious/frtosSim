@@ -24,13 +24,13 @@ ErrorCode BuildTask::TaskOperation()
     return ErrorCode{ ErrorCodeEnum::ERR_MAKE_INVOKATION };
   }
 
-  char buffer[128];
+  char buffer[128]{ 0 };
   std::stringstream result;
 
 
-  // while( pip.Read( buffer, sizeof( buffer ) ) ) {
-  //   result << buffer;
-  // }
+  while( pip.Read( buffer, sizeof( buffer ) ) ) {
+    result << buffer;
+  }
 
   int status = pip.Close();
 

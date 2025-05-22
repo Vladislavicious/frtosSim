@@ -41,10 +41,10 @@ ErrorCode SimulatorTask::TaskOperation()
   char buffer[128];
   std::stringstream result;
 
-  // TODO: because of this infinite loop, it's hard to reach to pip
-  // while( pip.Read( buffer, sizeof( buffer ) ) ) {
-  //   result << buffer;
-  // }
+  //TODO: because of this infinite loop, it's hard to reach to pip
+  while( pip.Read( buffer, sizeof( buffer ) ) ) {
+    result << buffer;
+  }
 
   int status = pip.Close();
 
