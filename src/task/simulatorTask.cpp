@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstdio>
 #include <thread>
-#include "myPipe.h"
+#include "myProcess.h"
 //---------------------------------------------------------------
 //       SimulatorTask class implementation:
 //---------------------------------------------------------------
@@ -26,8 +26,6 @@ void SimulatorTask::SetSpeed( double val )
 //---------------------------------------------------------------
 ErrorCode SimulatorTask::TaskOperation()
 {
-  // at this point, executable is checked 
-
   const std::string path = config.GetRunFilepath();
 
   pip = MyProcess( path, "r" );
@@ -39,10 +37,9 @@ ErrorCode SimulatorTask::TaskOperation()
     return ErrorCode{ ErrorCodeEnum::ERR_SIMULATION_CALL };
   }
 
-  char buffer[128];
+  char buffer[1024];
   std::stringstream result;
 
-  //TODO: because of this infinite loop, it's hard to reach to pip
   while( pip.Read( buffer, sizeof( buffer ) ) ) {
     result << buffer;
     if( HasEnded() )

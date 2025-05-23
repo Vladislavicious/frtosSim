@@ -6,8 +6,8 @@ set(SOURCE_FILES
     buildTask.cpp
     taskInterface.h
     taskInterface.cpp
-    myPipe.h
-    myPipe.cpp
+    myProcess.h
+    myProcess.cpp
     simulatorTask.h
     simulatorTask.cpp
 )
@@ -18,6 +18,6 @@ install(TARGETS task DESTINATION ${DIVISIBLE_INSTALL_LIB_DIR})
 install(FILES 
     taskInterface.h
     buildTask.h 
-    myPipe.h
+    myProcess.h
     simulatorTask.h
     DESTINATION ${DIVISIBLE_INSTALL_INCLUDE_DIR})

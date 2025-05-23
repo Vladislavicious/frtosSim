@@ -12,6 +12,34 @@ public:
   MOCK_METHOD( ConfigError, ReadConfig, ( const json& Config ), ( override ) );
 };
 //---------------------------------------------------------------
+TEST( ConfigTest, NonExistentFile ) {
+  MockConfig conf;
+  const std::string fileName( "file.json" );
+
+  EXPECT_CALL( conf, ReadConfig )
+    .Times( 0 );
+
+  ConfigError result = conf.ParseConfig( fileName );
+
+  EXPECT_EQ( result.GetValue(), ConfigErrorEnum::NO_CONFIG_FILE );
+}
+//---------------------------------------------------------------
+TEST( ConfigTest, GoodFile ) {
+  MockConfig conf;
+  const std::string fileName( "base.json" );
+
+  ON_CALL( conf, ReadConfig )
+    .WillByDefault( testing::Return( ConfigError( ConfigErrorEnum::OK ) ) );
+
+  EXPECT_CALL( conf, ReadConfig )
+    .Times( 1 );
+
+  ConfigError result = conf.ParseConfig( configDataPath + fileName );
+
+  EXPECT_EQ( result.GetValue(), ConfigErrorEnum::OK );
+  EXPECT_TRUE( conf.IsValidated() );
+}
+//---------------------------------------------------------------
 TEST( ConfigTest, InitValidity ) {
   MockConfig conf;
   EXPECT_FALSE( conf.IsValidated() );
@@ -45,33 +73,5 @@ TEST( ConfigTest, GiantFilename ) {
   ConfigError result = conf.ParseConfig( fileName );
 
   EXPECT_EQ( result.GetValue(), ConfigErrorEnum::FILE_NAME_TOO_LONG );
-}
-//---------------------------------------------------------------
-TEST( ConfigTest, NonExistentFile ) {
-  MockConfig conf;
-  const std::string fileName( "file.json" );
-
-  EXPECT_CALL( conf, ReadConfig )
-    .Times( 0 );
-
-  ConfigError result = conf.ParseConfig( fileName );
-
-  EXPECT_EQ( result.GetValue(), ConfigErrorEnum::NO_CONFIG_FILE );
-}
-//---------------------------------------------------------------
-TEST( ConfigTest, GoodFile ) {
-  MockConfig conf;
-  const std::string fileName( "base.json" );
-
-  ON_CALL( conf, ReadConfig )
-    .WillByDefault( testing::Return( ConfigError( ConfigErrorEnum::OK ) ) );
-
-  EXPECT_CALL( conf, ReadConfig )
-    .Times( 1 );
-
-  ConfigError result = conf.ParseConfig( configDataPath + fileName );
-
-  EXPECT_EQ( result.GetValue(), ConfigErrorEnum::OK );
-  EXPECT_TRUE( conf.IsValidated() );
 }
 //---------------------------------------------------------------

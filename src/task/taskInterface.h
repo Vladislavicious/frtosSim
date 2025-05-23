@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "time_sv.h"
-#include "myPipe.h"
+#include "myProcess.h"
 //---------------------------------------------------------------
 //       TaskInterface interface definition:
 //---------------------------------------------------------------
