@@ -128,6 +128,26 @@ int MyPipe::Close()
   return status;
 }
 
+bool MyPipe::Kill()
+{
+  // int closeReturn = Close();
+  if( childPInput != -1 ) {
+    close( childPInput );
+    childPInput = -1;
+  }
+
+  if( pid <= 0 ) {
+    return true;  // Некорректный PID
+  }
+  if( kill( pid, SIGKILL ) == -1 ) {
+    perror( "kill" );
+    return false;
+  }
+
+  pid = -1;
+  return true;
+}
+
 bool MyPipe::Read( char* buf, int maxSize ) {
   if( childPInput == -1 ) {
     return false;

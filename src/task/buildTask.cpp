@@ -30,6 +30,10 @@ ErrorCode BuildTask::TaskOperation()
 
   while( pip.Read( buffer, sizeof( buffer ) ) ) {
     result << buffer;
+    if( HasEnded() )
+    {
+      return ErrorCode{ ErrorCodeEnum::ERR_TASK_KILLED };
+    }
   }
 
   int status = pip.Close();

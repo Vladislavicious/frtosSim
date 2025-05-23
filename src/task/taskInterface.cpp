@@ -57,7 +57,7 @@ void TaskInterface::operator()()
 void TaskInterface::Kill()
 {
   ended = true;
-  pip.Close();
+  pip.Kill();
   result = ErrorCodeEnum::ERR_TASK_KILLED;
 }
 //---------------------------------------------------------------

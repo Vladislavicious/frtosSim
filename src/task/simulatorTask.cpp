@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cstdio>
+#include <thread>
 #include "myPipe.h"
 //---------------------------------------------------------------
 //       SimulatorTask class implementation:
@@ -44,6 +45,10 @@ ErrorCode SimulatorTask::TaskOperation()
   //TODO: because of this infinite loop, it's hard to reach to pip
   while( pip.Read( buffer, sizeof( buffer ) ) ) {
     result << buffer;
+    if( HasEnded() )
+    {
+      return ErrorCode{ ErrorCodeEnum::ERR_TASK_KILLED };
+    }
   }
 
   int status = pip.Close();

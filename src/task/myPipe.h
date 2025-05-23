@@ -13,6 +13,8 @@ public:
   MyPipe( std::string Command, std::string Mode );
   bool Open();
   int Close();
+  bool Kill();
+
   ~MyPipe() {
     Close();
   }

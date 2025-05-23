@@ -71,9 +71,9 @@ TEST( simulatorTaskTest, TaskInterrupt ) {
   // }
 
   // for( auto& task : tasks ) {
-  //   task.Kill();
+  //   while( !task.HasEnded() )
+  //     task.Kill();
   // }
-
   // ErrorCode result = tasks[0].GetResult();
   // EXPECT_EQ( result.GetValue(), ErrorCodeEnum::ERR_TASK_KILLED );
 }
