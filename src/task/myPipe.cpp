@@ -87,7 +87,7 @@ char** stringToArgv( const std::string& input, int& argc ) {
   return argv;
 }
 
-MyPipe::MyPipe( std::string Command, std::string Mode )
+MyProcess::MyProcess( std::string Command, std::string Mode )
   : command{ Command }, mode{ Mode }
 {
 }
@@ -101,7 +101,7 @@ void freeArgv( char** argv, int argc ) {
   }
 }
 
-bool MyPipe::Open()
+bool MyProcess::Open()
 {
   int wordsCount = 0;
   char** tokens = stringToArgv( command, wordsCount );
@@ -112,7 +112,7 @@ bool MyPipe::Open()
   return pid > 0;
 }
 
-int MyPipe::Close()
+int MyProcess::Close()
 {
   int status = -1;
 
@@ -128,7 +128,7 @@ int MyPipe::Close()
   return status;
 }
 
-bool MyPipe::Kill()
+bool MyProcess::Kill()
 {
   // int closeReturn = Close();
   if( childPInput != -1 ) {
@@ -148,7 +148,7 @@ bool MyPipe::Kill()
   return true;
 }
 
-bool MyPipe::Read( char* buf, int maxSize ) {
+bool MyProcess::Read( char* buf, int maxSize ) {
   if( childPInput == -1 ) {
     return false;
   }

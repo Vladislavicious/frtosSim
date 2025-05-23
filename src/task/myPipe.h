@@ -1,21 +1,21 @@
-#ifndef MY_PIPE_H_
-#define MY_PIPE_H_
+#ifndef MY_PROCESS_H_
+#define MY_PROCESS_H_
 #include <string>
 #include <cstdio>
 
 //---------------------------------------------------------------
 //       MyPipe class definition:
 //---------------------------------------------------------------
-class MyPipe
+class MyProcess
 {
 public:
-  MyPipe() {};
-  MyPipe( std::string Command, std::string Mode );
+  MyProcess() {};
+  MyProcess( std::string Command, std::string Mode );
   bool Open();
   int Close();
   bool Kill();
 
-  ~MyPipe() {
+  ~MyProcess() {
     Close();
   }
 
@@ -28,4 +28,4 @@ private:
   std::string mode{ "" };
 };
 //---------------------------------------------------------------
-#endif // MY_PIPE_H_
+#endif // MY_PROCESS_H_

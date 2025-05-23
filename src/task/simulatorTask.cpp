@@ -30,7 +30,7 @@ ErrorCode SimulatorTask::TaskOperation()
 
   const std::string path = config.GetRunFilepath();
 
-  pip = MyPipe( path, "r" );
+  pip = MyProcess( path, "r" );
 
   if( !pip.Open() ) {
     if( stream ) {

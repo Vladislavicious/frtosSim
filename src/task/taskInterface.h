@@ -25,7 +25,7 @@ public:
 protected:
   virtual ErrorCode TaskOperation() = 0;
   std::ostream* stream{ nullptr };
-  MyPipe pip;
+  MyProcess pip;
 
 private:
 

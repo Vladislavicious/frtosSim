@@ -15,7 +15,7 @@ ErrorCode BuildTask::TaskOperation()
   const std::string path = config.GetBuildFilepath();
   const std::string fullCommand = MakeCommand + path;
 
-  pip = MyPipe( fullCommand, "r" );
+  pip = MyProcess( fullCommand, "r" );
 
   if( !pip.Open() ) {
     if( stream ) {
