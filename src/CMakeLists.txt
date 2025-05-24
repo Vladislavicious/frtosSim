@@ -22,6 +22,9 @@ include_directories(task)
 set(SOURCE_FILES 
     main.cpp )
 
+add_compile_definitions(
+    TEST_DATA_DIR="/home/vboxuser/dev/dipl/test/data")
+
 add_executable(FrtosSim ${SOURCE_FILES})
 target_link_libraries(
     FrtosSim 

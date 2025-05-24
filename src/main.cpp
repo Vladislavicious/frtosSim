@@ -1,100 +1,195 @@
 #include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
+#include <thread>
+#include <atomic>
+#include <chrono>
 
-// Функция для вывода справки
+#include "common.h"
+#include "time_sv.h"
+#include "logger.h"
+#include "loggable.h"
+
+class FakeLogger : public Loggable
+{
+public:
+};
+
+static const std::string loggerDataPath = std::string( TEST_DATA_DIR ) + std::string( "/logger/" );
+
+FakeLogger GetLogger( std::string path )
+{
+  LoggerConfig appConfig;
+  ConfigError result = appConfig.ParseConfig( loggerDataPath + std::string( "fakeSim/" ) + path );
+  LoggerInterface* appLogInterface = LoggerFabric::GetLogger( appConfig );
+  FakeLogger newLoggable;
+  newLoggable.SetLogger( appLogInterface );
+
+  return newLoggable;
+}
+void del( long int ms )
+{
+  std::this_thread::sleep_for( std::chrono::milliseconds( ms ) );
+}
+
+FakeLogger appLoggable = GetLogger( "mainApp.json" );
+
+struct HexCharStruct
+{
+  unsigned char c;
+  HexCharStruct( unsigned char _c ) : c( _c ) {}
+};
+
+inline std::ostream& operator<<( std::ostream& o, const HexCharStruct& hs )
+{
+  return ( o << " 0x" << std::hex << ( int )hs.c );
+}
+
+inline HexCharStruct hex( unsigned char _c )
+{
+  return HexCharStruct( _c );
+}
+
+std::atomic<bool> stop_output( false );
+std::atomic<bool> pause_output( false ); // Флаг для остановки вывода
+std::atomic<int> speed_ms( 1 );
+// Выводит список доступных команд
 void printHelp() {
-  std::cout << "Application Help:\n";
-  std::cout << "Usage: app [options]\n";
-  std::cout << "Options:\n";
-  std::cout << "  -p <path_to_file>   Path to system configuration file\n";
-  std::cout << "  -h                  Display this help message\n";
-  std::cout << "  -s <speed>          Simulation speed\n";
-  std::cout << "  -t <template_path>  Create system template in specified folder\n";
-  std::cout << "\nDescription:\n";
-  std::cout << "If no configuration path is provided, the application checks for\n";
-  std::cout << "previously running systems and either starts the last active one\n";
-  std::cout << "or displays a message if none are found.\n";
+  std::cout << "\nAvailable commands:\n";
+  std::cout << "c - Continue execution\n";
+  std::cout << "s - Change speed (current: " << speed_ms << ")\n";
+  std::cout << "t - Show statistics\n";
+  std::cout << "p - Stop execution\n";
+  std::cout << "Enter command: ";
 }
 
-// Функция для проверки наличия ранее запущенных систем
-bool checkForRunningSystems() {
-  // Здесь должна быть реальная проверка, но для примера просто возвращаем false
-  return false;
-}
-
-// Функция для запуска последней активной системы
-void startLastActiveSystem() {
-  std::cout << "Starting last active system...\n";
-  // Реальная логика запуска
-}
-
-// Функция для создания шаблона конфигурации
-void createTemplate( const std::string& path ) {
-  std::cout << "Creating system template in: " << path << "\n";
-  // Реальная логика создания шаблона
-}
-
-int main( int argc, char* argv[] ) {
-  std::string configPath;
-  std::string speed;
-  std::string templatePath;
-  bool helpRequested = false;
-  bool templateRequested = false;
-
-  // Парсинг аргументов командной строки
-  for( int i = 1; i < argc; ++i ) {
-    std::string arg = argv[i];
-
-    if( arg == "-h" ) {
-      helpRequested = true;
+// Обработчик ввода пользователя
+void inputHandler() {
+  std::string input;
+  while( !stop_output ) {
+    std::getline( std::cin, input );  // Ждём ввода
+    if( !pause_output )
+    {
+      appLoggable.Log( "execution paused\n" );
+      pause_output = true;
     }
-    else if( arg == "-p" && i + 1 < argc ) {
-      configPath = argv[++i];
-    }
-    else if( arg == "-s" && i + 1 < argc ) {
-      speed = argv[++i];
-    }
-    else if( arg == "-t" && i + 1 < argc ) {
-      templatePath = argv[++i];
-      templateRequested = true;
-    }
-  }
 
-  // Обработка запроса справки
-  if( helpRequested ) {
-    printHelp();
-    return 0;
-  }
-
-  // Обработка запроса создания шаблона
-  if( templateRequested ) {
-    createTemplate( templatePath );
-    return 0;
-  }
-
-  // Основная логика приложения
-  if( !configPath.empty() ) {
-    std::cout << "Starting system with configuration: " << configPath;
-    if( !speed.empty() ) {
-      std::cout << " at speed: " << speed;
+    if( input.empty() ) {
+      printHelp();
+      continue;
     }
-    std::cout << "\n";
-    // Здесь должна быть реальная логика запуска с указанным конфигом
-  }
-  else {
-    if( checkForRunningSystems() ) {
-      startLastActiveSystem();
-      if( !speed.empty() ) {
-        std::cout << "Setting simulation speed: " << speed << "\n";
+
+    char cmd = input[0];
+    switch( cmd ) {
+    case 'c': // Продолжить выполнение
+      pause_output = false;
+      std::cout << "Resuming...\n";
+      break;
+
+    case 's': // Изменить скорость
+    {
+      std::cout << "Enter new speed: ";
+      int new_speed;
+      if( std::cin >> new_speed && new_speed > 0 ) {
+        speed_ms = new_speed;
+
+        std::cout << "Speed set to " << speed_ms << "\n";
+        appLoggable.Log( LogLevel::INFO, "Speed change applied" );
+        appLoggable.SetTimestamps( false );
+        appLoggable.Log( "\n" );
+        appLoggable.SetTimestamps( true );
+
       }
+      else {
+        std::cout << "Invalid speed value!\n";
+      }
+      std::cin.ignore(); // Очистка буфера после ввода числа
+    }
+    break;
+
+    case 'p': // Прервать выполнение
+      stop_output = true;
+      appLoggable.Log( LogLevel::INFO, "Saving simulators state\n\n" );
+      del( 5 );
+      appLoggable.Log( LogLevel::INFO, "EXIT - OK\n" );
+
+      break;
+
+    default:
+      std::cout << "Unknown command.\n";
+      break;
+    }
+  }
+}
+// Функция для постоянного вывода строк
+void continuousOutput() {
+  ApplicationGlobalInfo::Instance().SetInitialTimeDelta( TimeSV::Now() );
+
+  FakeLogger sim1tx = GetLogger( "sim1.json" );
+  FakeLogger sim2tx = GetLogger( "sim2.json" );
+
+  appLoggable.Log( "start loading configs\n\n" );
+  del( 2 );
+  appLoggable.Log( LogLevel::INFO, "CONFIG - OK\n" );
+  appLoggable.Log( "start build tasks\n\n" );
+  del( 700 );
+  appLoggable.Log( LogLevel::INFO, "BUILD - OK\n\n" );
+  del( 10 );
+  appLoggable.Log( "start simulation \n\n" );
+
+  appLoggable.Log( LogLevel::INFO, "sim1 started\n" );
+  del( 1 );
+  sim1tx.Log( "peripheral initialization\n\n" );
+  sim1tx.Log( LogLevel::WARNING, "Bad clock init\n" );
+  appLoggable.Log( LogLevel::INFO, "sim2 started\n\n" );
+  del( 1 );
+  sim2tx.Log( "peripheral initialization\n\n" );
+
+
+  const int valStrLength = 14;
+  char value[valStrLength] = "hello, world!";
+  std::stringstream bytesValue;
+  for( int i = 0; i < valStrLength; i++ )
+  {
+    bytesValue << hex( value[i] );
+  }
+
+  std::string SendString = "send 10 bytes (uart)\n";
+  std::string ReceiveString = "received 10 bytes (uart):\n" + bytesValue.str() + "\n";
+
+  int counter = 0;
+  while( !stop_output )
+  {
+    if( !pause_output )
+    {
+      if( !pause_output ) {
+        sim1tx.Log( LogLevel::INFO, SendString );
+        sim2tx.Log( LogLevel::INFO, ReceiveString );
+      }
+
+      del( 495 );
+      if( !pause_output ) {
+        sim1tx.Log( LogLevel::INFO, SendString );
+        sim2tx.Log( LogLevel::INFO, ReceiveString );
+
+        sim2tx.Log( LogLevel::INFO, SendString );
+        sim1tx.Log( LogLevel::INFO, ReceiveString );
+
+        appLoggable.Log( LogLevel::INFO, "alive: " + std::to_string( counter++ ) + "\n" );
+      }
+      del( 495 );
     }
     else {
-      std::cout << "No active systems found and no configuration provided.\n";
-      std::cout << "Please specify a configuration file with -p or use -h for help.\n";
+      del( 5 );
     }
+
   }
+}
+
+int main() {
+  std::thread outputThread( continuousOutput );
+  std::thread inputThread( inputHandler );
+
+  outputThread.join();
+  inputThread.join();
 
   return 0;
 }
